@@ -12,7 +12,7 @@
 	<artifactId>interview.master</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>interview.master</name>
-	<description>Rest Api for job interview gamificated practice</description>
+	<description>REST API for Gamified Job Interview Practice</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
