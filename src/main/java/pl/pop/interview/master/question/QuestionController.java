@@ -1,9 +1,8 @@
 package pl.pop.interview.master.question;
 
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping( path = "api/v1/questions" )
@@ -17,5 +16,10 @@ public class QuestionController {
     @PutMapping( "/" )
     public void addNewQuestion( @RequestBody QuestionDTO questionDTO ) {
         questionService.addNewQuestion( questionDTO );
+    }
+
+    @GetMapping( "/" )
+    public List<Question> getAllQuestions() {
+        return questionService.getAllQuestions();
     }
 }
