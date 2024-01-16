@@ -2,6 +2,8 @@ package pl.pop.interview.master.question;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
@@ -20,5 +22,9 @@ public class QuestionService {
                 questionDTO.getContent(),
                 questionDTO.getCorrectAnswer()
         );
+    }
+
+    public List<Question> getAllQuestions() {
+        return questionRepository.findAll();
     }
 }

@@ -7,6 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -33,5 +36,23 @@ public class QuestionServiceTest {
 
         assertEquals( questionDTO.getContent(), capturedQuestion.getContent() );
         assertEquals( questionDTO.getCorrectAnswer(), capturedQuestion.getCorrectAnswer() );
+    }
+
+    @Test
+    public void testGetAllQuestions_SuccessfulReturnedQuestions() {
+        List<Question> expectedQuestions = Arrays.asList(
+                new Question( "Is it ok?", YesNo.YES ),
+                new Question( "Is it bad?", YesNo.NO )
+        );
+
+        // create an imitation of a repository that will return a expectedQuestions list
+        when( questionRepository.findAll() ).thenReturn( expectedQuestions );
+
+        List<Question> actualQuestions = questionService.getAllQuestions();
+
+        assertEquals( expectedQuestions.size(), actualQuestions.size() );
+        for ( int i = 0; i < expectedQuestions.size(); i++ ) {
+            assertEquals( expectedQuestions.get( i ), actualQuestions.get( i ) );
+        }
     }
 }
