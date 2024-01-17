@@ -19,7 +19,7 @@ public class QuestionController {
     }
 
     @GetMapping()
-    public List<Question> getAllQuestions() {
+    public List<QuestionDTO> getAllQuestions() {
         return questionService.getAllQuestions();
     }
 }
