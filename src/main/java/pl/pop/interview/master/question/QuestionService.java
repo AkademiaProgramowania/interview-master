@@ -24,7 +24,11 @@ public class QuestionService {
         );
     }
 
-    public List<Question> getAllQuestions() {
-        return questionRepository.findAll();
+    public List<QuestionDTO> getAllQuestions() {
+        List<Question> listFromDB = questionRepository.findAll();
+
+        return listFromDB.stream()
+                .map( question -> new QuestionDTO( question.getContent(), question.getCorrectAnswer() ) )
+                .toList();
     }
 }
