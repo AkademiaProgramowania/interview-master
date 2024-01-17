@@ -1,11 +1,11 @@
 package pl.pop.interview.master.question;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-@RunWith( MockitoJUnitRunner.class )
+@ExtendWith( MockitoExtension.class )
 public class QuestionServiceTest {
     @Mock
     private QuestionRepository questionRepository;
@@ -48,11 +48,14 @@ public class QuestionServiceTest {
         // create an imitation of a repository that will return a expectedQuestions list
         when( questionRepository.findAll() ).thenReturn( expectedQuestions );
 
-        List<Question> actualQuestions = questionService.getAllQuestions();
+        List<QuestionDTO> actualQuestionsDTO = questionService.getAllQuestions();
+
+        // we need to cast DTO to Question, cause service returns List<QuestionDTO>
+        List<Question> actualQuestions = actualQuestionsDTO.stream()
+                        .map(questionDTO -> new Question(questionDTO.getContent(), questionDTO.getCorrectAnswer()))
+                        .toList();
 
         assertEquals( expectedQuestions.size(), actualQuestions.size() );
-        for ( int i = 0; i < expectedQuestions.size(); i++ ) {
-            assertEquals( expectedQuestions.get( i ), actualQuestions.get( i ) );
-        }
+        assertIterableEquals( expectedQuestions, actualQuestions );
     }
 }

@@ -3,6 +3,8 @@ package pl.pop.interview.master.question;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 /**
  * Representing the question table inside DB with id, content and correct answer
  */
@@ -48,5 +50,20 @@ public class Question {
 
     public void setCorrectAnswer( YesNo correctAnswer ) {
         this.correctAnswer = correctAnswer;
+    }
+
+    @Override
+    public boolean equals( Object obj ) {
+        if ( this == obj ) return true;
+        if ( obj == null || getClass() != obj.getClass() ) return false;
+
+        Question question = ( Question ) obj;
+
+        return Objects.equals( content, question.content ) && correctAnswer == question.getCorrectAnswer();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash( content, correctAnswer );
     }
 }
