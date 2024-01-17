@@ -13,7 +13,7 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
-    @PutMapping()
+    @PostMapping()
     public void addNewQuestion( @RequestBody QuestionDTO questionDTO ) {
         questionService.addNewQuestion( questionDTO );
     }
