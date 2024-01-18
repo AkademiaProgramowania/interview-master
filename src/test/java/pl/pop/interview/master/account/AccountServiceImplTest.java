@@ -22,8 +22,6 @@ class AccountServiceImplTest {
     private AccountRepository accountRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
-    @Mock
-    private AccountMapper accountMapper;
     @InjectMocks
     private AccountServiceImpl accountService;
 
@@ -35,32 +33,26 @@ class AccountServiceImplTest {
         when(accountRepository.findByEmail(inputDTO.getEmail())).thenReturn(null);
         when(passwordEncoder.encode(inputDTO.getPassword())).thenReturn("hashedPassword");
         when(accountRepository.save(any(Account.class))).thenReturn(account);
-        when(accountMapper.accountToAccountDTO(account)).thenReturn(new AccountDTO("email@gmail.com", null));
 
         AccountDTO resultDTO = accountService.createNewAccount(inputDTO);
 
         assertNotNull(resultDTO);
         assertEquals("email@gmail.com", resultDTO.getEmail());
-        assertNull(resultDTO.getPassword());
+        assertNull(resultDTO.getPassword()); //mapper sets hashed password to null to make it invisible
     }
 
     @Test
     void listAccounts() {
-        Account account1 = new Account("email@gmail.com", "password");
-        Account account2 = new Account("email2@gmail.com", "password2");
-        List<Account> accounts = new ArrayList<>();
-        accounts.add(account1);
-        accounts.add(account2);
+        List<Account> accounts = Arrays.asList(
+                new Account("email@gmail.com", "password"),
+                new Account("email2@gmail.com", "password2"));
 
         when(accountRepository.findAll()).thenReturn(accounts);
-        when(accountMapper.accountToAccountDTO(any(Account.class)))
-                .thenReturn(new AccountDTO("email@gmail.com", "hashed1"))
-                .thenReturn(new AccountDTO("email2@gmail.com", "hashed2"));
 
         List<AccountDTO> resultList = accountService.listAccounts();
         assertNotNull(resultList);
         assertEquals(2, resultList.size());
         assertEquals("email@gmail.com", resultList.get(0).getEmail());
-        assertEquals("hashed1", resultList.get(0).getPassword());
+        assertNull(resultList.get(0).getPassword()); //mapper sets hashed password to null to make it invisible
     }
 }
