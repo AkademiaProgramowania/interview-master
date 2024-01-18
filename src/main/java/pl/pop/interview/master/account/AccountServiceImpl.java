@@ -11,12 +11,10 @@ public class AccountServiceImpl implements AccountService{
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AccountMapper accountMapper;
 
-    public AccountServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder, AccountMapper accountMapper) {
+    public AccountServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
-        this.accountMapper = accountMapper;
     }
 
     public AccountDTO createNewAccount(AccountDTO accountDTO) {
@@ -27,7 +25,7 @@ public class AccountServiceImpl implements AccountService{
             // create new account with a password hashed
             String hashedPassword = passwordEncoder.encode(accountDTO.getPassword());
             Account account = new Account(accountDTO.getEmail(), hashedPassword);
-            return accountMapper.accountToAccountDTO(accountRepository.save(account));
+            return accountToAccountDTO(accountRepository.save(account));
         }
     }
 
@@ -35,7 +33,18 @@ public class AccountServiceImpl implements AccountService{
     public List<AccountDTO> listAccounts() {
         return accountRepository.findAll()
                 .stream()
-                .map(account -> accountMapper.accountToAccountDTO(account))
+                .map(account -> accountToAccountDTO(account))
                 .collect(Collectors.toList());
+    }
+
+    public AccountDTO accountToAccountDTO(Account account) {
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setEmail(account.getEmail());
+        accountDTO.setPassword(null); // good practice: password fields not visible in result DTO
+        return accountDTO;
+    }
+
+    public Account accountDTOToAccount(AccountDTO accountDTO) {
+        return new Account(accountDTO.getEmail(), accountDTO.getPassword());
     }
 }
