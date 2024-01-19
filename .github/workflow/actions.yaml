@@ -1,0 +1,22 @@
+name: interviewMaster
+
+on:
+#  pull_request:
+  push:
+    # Wildcard for all branches
+    branches: [ "**" ]
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Runs a single command using the runners shell
+      - name: Compile and test
+        run:
+          mvn compile
+          mvn test
