@@ -7,7 +7,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,14 +22,14 @@ class AccountServiceImplTest {
     @Mock
     private PasswordEncoder passwordEncoder;
     @InjectMocks
-    private AccountServiceImpl accountService;
+    private AccountService accountService;
 
     @Test
     void testCreateNewAccount() {
         AccountDTO inputDTO = new AccountDTO("email@gmail.com", "password");
         Account account = new Account("email@gmail.com", "hashedPassword");
 
-        when(accountRepository.findByEmail(inputDTO.getEmail())).thenReturn(null);
+        when(accountRepository.existsById(inputDTO.getEmail())).thenReturn(null);
         when(passwordEncoder.encode(inputDTO.getPassword())).thenReturn("hashedPassword");
         when(accountRepository.save(any(Account.class))).thenReturn(account);
 

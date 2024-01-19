@@ -8,18 +8,18 @@ import java.util.List;
 @RequestMapping(path = "api/v1/accounts")
 public class AccountController {
 
-    private final AccountServiceImpl accountService;
+    private final AccountService accountService;
 
-    public AccountController(AccountServiceImpl accountService) {
+    public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
 
-    @PostMapping
+    @PostMapping()
     public void addNewAccount(@RequestBody AccountDTO accountDTO) {
         accountService.createNewAccount(accountDTO);
     }
 
-    @GetMapping
+    @GetMapping()
     public List<AccountDTO> listAccounts() {
         return accountService.listAccounts();
     }

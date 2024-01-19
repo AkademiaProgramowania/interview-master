@@ -6,8 +6,6 @@ import lombok.Data;
 @Builder
 @Data
 public class AccountDTO {
-    private Long id;
-
     private String email;
     private String password;
 
