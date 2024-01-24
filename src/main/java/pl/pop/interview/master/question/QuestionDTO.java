@@ -1,7 +1,11 @@
 package pl.pop.interview.master.question;
 
 /**
- * Data Transfer Object (DTO) representing questions, used for communication between layers.
+ * DTO objects are used as data transport structure. 
+ * Transport takes place between the http request/response body (as JSON) and the business logic layer (Services).
+ * This class provides the JSON structure used in communication with the API.
+ * 
+ * Getters and no-args constructor are required by the Jackson library for JSON serialization/deserialization.
  */
 
 public class QuestionDTO {
@@ -15,8 +19,6 @@ public class QuestionDTO {
         this.content = content;
         this.correctAnswer = correctAnswer;
     }
-
-    // Getters are required by the Jackson library for JSON serialization/deserialization
 
     public String getContent() {
         return content;
