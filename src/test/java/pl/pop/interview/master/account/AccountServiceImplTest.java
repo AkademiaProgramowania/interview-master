@@ -48,7 +48,7 @@ class AccountServiceImplTest {
 
         when(accountRepository.findAll()).thenReturn(accounts);
 
-        List<AccountDTO> resultList = accountService.listAccounts();
+        List<AccountDTO> resultList = accountService.getAllAccounts();
         assertNotNull(resultList);
         assertEquals(2, resultList.size());
         assertEquals("email@gmail.com", resultList.get(0).getEmail());

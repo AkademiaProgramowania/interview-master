@@ -14,14 +14,14 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping()
+    @PostMapping
     public void addNewAccount(@RequestBody AccountDTO accountDTO) {
         accountService.createNewAccount(accountDTO);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<AccountDTO> listAccounts() {
-        return accountService.listAccounts();
+        return accountService.getAllAccounts();
     }
 
 

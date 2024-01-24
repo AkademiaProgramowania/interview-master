@@ -1,10 +1,5 @@
 package pl.pop.interview.master.account;
 
-import lombok.Builder;
-import lombok.Data;
-
-@Builder
-@Data
 public class AccountDTO {
     private String email;
     private String password;

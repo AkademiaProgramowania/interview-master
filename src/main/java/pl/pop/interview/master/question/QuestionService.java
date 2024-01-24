@@ -37,24 +37,24 @@ public class QuestionService {
     }
 
     public void addNewQuestion(QuestionDTO questionDTO) {
-        Question question = buildQuestionFromDTO(questionDTO);
+        Question question = mapToEntity(questionDTO);
         questionRepository.save(question);
     }
 
-    private Question buildQuestionFromDTO(QuestionDTO questionDTO) {
+    public List<QuestionDTO> getAllQuestions() {
+        return questionRepository.findAll().stream()
+                .map( question -> mapToDto(question) )
+                .toList();
+    }
+
+    private Question mapToEntity(QuestionDTO questionDTO) {
         return new Question(
                 questionDTO.getContent(),
                 questionDTO.getCorrectAnswer()
         );
     }
 
-    public List<QuestionDTO> getAllQuestions() {
-        List<Question> listFromDB = questionRepository.findAll();
-
-        return listFromDB.stream()
-                .map( question -> new QuestionDTO( question.getContent(), question.getCorrectAnswer() ) )
-                .toList();
+    private QuestionDTO mapToDto(Question question) {
+        return new QuestionDTO( question.getContent(), question.getCorrectAnswer() );
     }
-
-
 }
