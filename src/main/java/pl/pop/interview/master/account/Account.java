@@ -1,16 +1,14 @@
 package pl.pop.interview.master.account;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+import pl.pop.interview.master.practitioner.Practitioner;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Account {
 
@@ -22,4 +20,7 @@ public class Account {
         this.email = email;
         this.password = password;
     }
+
+    @OneToOne
+    private Practitioner practitioner;
 }
