@@ -36,8 +36,6 @@ class AccountMapperTest {
         dto.setPassword(password);
         dto.setPractitionerId(practitionerId);
 
-        Practitioner practitioner = new Practitioner(practitionerId);
-
         // When
         Account entity = underTest.mapDtoToEntity(dto);
 
