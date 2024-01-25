@@ -2,53 +2,33 @@ package pl.pop.interview.master.question;
 
 
 import jakarta.persistence.*;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Representing the question table inside DB with id, content and correct answer
  */
 
-@Entity
-public class Question {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
+@Entity(name = "questions")
+public class Question implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String content;
-    @Enumerated( EnumType.STRING )
-    private YesNo correctAnswer;
+    @Column(name = "correct_answer")
+    private String correctAnswer;
 
     // constructors
 
-    public Question() {
-    }
-
-    public Question( String content, YesNo correctAnswer ) {
+    public Question( String content, String correctAnswer ) {
         this.content = content;
-        this.correctAnswer = correctAnswer;
-    }
-
-    // getters
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public YesNo getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    // setters
-
-    public void setContent( String content ) {
-        this.content = content;
-    }
-
-    public void setCorrectAnswer( YesNo correctAnswer ) {
         this.correctAnswer = correctAnswer;
     }
 

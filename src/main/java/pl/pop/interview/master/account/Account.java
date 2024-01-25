@@ -4,13 +4,15 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.pop.interview.master.practitioner.Practitioner;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "accounts")
-public class Account {
+public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

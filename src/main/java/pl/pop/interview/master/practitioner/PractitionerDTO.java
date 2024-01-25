@@ -9,9 +9,9 @@ import lombok.*;
 @Getter
 @Setter
 public class PractitionerDTO {
-    private Long id;
+    private long id;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 }
