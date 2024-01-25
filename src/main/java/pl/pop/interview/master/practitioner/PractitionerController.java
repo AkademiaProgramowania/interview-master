@@ -14,7 +14,7 @@ public class PractitionerController {
 
     private final PractitionerService practitionerService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<PractitionerDTO> listPractitioners() {
         return practitionerService.listPractitioners();
     }

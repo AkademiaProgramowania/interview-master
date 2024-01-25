@@ -13,12 +13,12 @@ public class QuestionController {
         this.questionService = questionService;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public void addNewQuestion( @RequestBody QuestionDTO questionDTO ) {
         questionService.addNewQuestion( questionDTO );
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public List<QuestionDTO> getAllQuestions() {
         return questionService.getAllQuestions();
     }
