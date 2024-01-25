@@ -8,8 +8,8 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class PractitionerService {
-
     private final PractitionerRepository practitionerRepository;
+    private final PractitionerMapper practitionerMapper;
 
     public Practitioner createNewPractitioner() {
         // create a new practitioner called only in creating new account
@@ -20,17 +20,8 @@ public class PractitionerService {
     public List<PractitionerDTO> listPractitioners() {
         return practitionerRepository.findAll()
                 .stream()
-                .map(practitioner -> buildPractitionerDTOFromPractitioner(practitioner))
+                .map(practitioner -> practitionerMapper.mapEntityToDto(practitioner))
                 .toList();
     }
 
-    private PractitionerDTO buildPractitionerDTOFromPractitioner(Practitioner practitioner) {
-        PractitionerDTO practitionerDTO = new PractitionerDTO();
-        practitionerDTO.setId(practitioner.getId());
-        return practitionerDTO;
-    }
-
-    private Practitioner buildPractitionerFromPractitionerDTO(PractitionerDTO practitionerDTO) {
-        return new Practitioner(practitionerDTO.getId());
-    }
 }
