@@ -24,4 +24,12 @@ public class PractitionerService {
                 .toList();
     }
 
+    public Practitioner findById(Long id) {
+        return practitionerRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new PractitionerServiceException("No practitioner found"));
+
+    }
+
 }
