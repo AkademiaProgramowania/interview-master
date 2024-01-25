@@ -18,9 +18,7 @@ import java.io.IOException;
 @Component
 public class DataUploader {
     private static final String DATABASE_UPDATED_QUESTIONS_ADDED = "Database updated - questions added";
-    private static final String DATABASE_UPDATED_ACCOUNTS_ADDED = "Database updated = accounts added";
     private QuestionService questionService;
-    private AccountService accountService;
     private ObjectMapper objectMapper;
 
     public void populateQuestions() throws IOException {
@@ -32,16 +30,5 @@ public class DataUploader {
             questionService.addNewQuestion(questionDTO);
         }
         log.info(DATABASE_UPDATED_QUESTIONS_ADDED);
-    }
-
-    public void populateAccounts() throws IOException {
-        ClassPathResource resource = new ClassPathResource("json/accounts.json");
-        JsonNode rootNode = objectMapper.readTree(resource.getInputStream());
-        JsonNode questionNode = rootNode.get("accounts");
-        for (JsonNode account : questionNode) {
-            AccountDTO accountDTO = objectMapper.treeToValue(account, AccountDTO.class);
-            accountService.createNewAccount(accountDTO);
-        }
-        log.info(DATABASE_UPDATED_ACCOUNTS_ADDED);
     }
 }

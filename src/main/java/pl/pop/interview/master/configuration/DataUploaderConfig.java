@@ -12,7 +12,6 @@ public class DataUploaderConfig {
     public CommandLineRunner populateData(DataUploader dataUploader) {
         return args -> {
             dataUploader.populateQuestions();
-            dataUploader.populateAccounts();
         };
     }
 }
