@@ -12,46 +12,38 @@ public class AccountService {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PractitionerService practitionerService;
+    private final AccountMapper accountMapper;
 
-    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PractitionerService practitionerService) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, AccountMapper accountMapper) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
-        this.practitionerService = practitionerService;
+        this.accountMapper = accountMapper;
     }
+
 
     public AccountDTO createNewAccount(AccountDTO accountDTO) {
         // ensure that there is no account with given email
-        if (accountRepository.existsById(accountDTO.getEmail())) {
+        if (findById(accountDTO.getId())) {
             throw new AccountServiceException("An account with this email address already exists");
         }
         // create new account with a password hashed
-        String hashedPassword = passwordEncoder.encode(accountDTO.getPassword());
+        String hashedPassword = encodePassword(accountDTO.getPassword());
         Account account = new Account(accountDTO.getEmail(), hashedPassword);
-        // create a new practitioner and set to the account
-        Practitioner practitioner = practitionerService.createNewPractitioner();
-        account.setPractitioner(practitioner);
-        return mapToDto(accountRepository.save(account));
+        return accountMapper.mapEntityToDto(accountRepository.save(account));
     }
 
     public List<AccountDTO> getAllAccounts() {
         return accountRepository.findAll()
                 .stream()
-                .map(account -> mapToDto(account))
+                .map(account -> accountMapper.mapEntityToDto(account))
                 .toList();
     }
 
-    private AccountDTO mapToDto(Account account) {
-        AccountDTO accountDTO = new AccountDTO();
-        accountDTO.setEmail(account.getEmail());
-        accountDTO.setPassword(null); // good practice: password fields not visible in result DTO // todo spr czy jeśli null to nie dawać do jsona zbędnego pola
-        if (account.getPractitioner() != null) {
-            accountDTO.setPractitionerId(account.getPractitioner().getId());
-        }
-        return accountDTO;
+    private boolean findById(Long id) {
+        return accountRepository.existsById(id);
     }
 
-    private Account mapToEntity(AccountDTO accountDTO) {
-        return new Account(accountDTO.getEmail(), accountDTO.getPassword());
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
     }
 }
