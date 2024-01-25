@@ -58,6 +58,11 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>com.github.eye2web</groupId>
+			<artifactId>model-mapper</artifactId>
+			<version>2.2.1</version>
+		</dependency>
     </dependencies>
 
 	<build>
