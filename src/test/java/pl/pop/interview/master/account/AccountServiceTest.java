@@ -1,25 +1,28 @@
 package pl.pop.interview.master.account;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.pop.interview.master.practitioner.Practitioner;
 import pl.pop.interview.master.practitioner.PractitionerService;
+import pl.pop.interview.master.question.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
+
 
     @Mock
     private AccountRepository accountRepository;
@@ -28,17 +31,30 @@ class AccountServiceTest {
 
     @Mock
     private PractitionerService practitionerService;
+    @Mock
+    private AccountMapper accountMapper;
 
     @InjectMocks
     private AccountService accountService;
 
+
+
     @Test
     void testCreateNewAccount() {
-        AccountDTO inputDTO = new AccountDTO("email@gmail.com", "password");
-        Practitioner practitioner = new Practitioner(1L);
-        Account result = new Account("email@gmail.com", "hashedPassword", practitioner);
+        AccountDTO inputDTO = new AccountDTO();
+        inputDTO.setId(1L);
+        inputDTO.setEmail("email@gmail.com");
+        inputDTO.setPassword("hashedPassword");
+        inputDTO.setPractitionerId(1L);
 
-        when(accountRepository.existsById(inputDTO.getEmail())).thenReturn(false);
+        Practitioner practitioner = new Practitioner(1L);
+        Account result = new Account();
+        result.setId(1L);
+        result.setEmail("email@gmail.com");
+        result.setPassword("hashedPassword");
+        result.setPractitioner(practitioner);
+
+        when(accountRepository.existsById(inputDTO.getId())).thenReturn(false);
         when(passwordEncoder.encode(inputDTO.getPassword())).thenReturn("hashedPassword");
         when(practitionerService.createNewPractitioner()).thenReturn(practitioner);
         when(accountRepository.save(any(Account.class))).thenReturn(result);
