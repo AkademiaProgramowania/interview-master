@@ -1,0 +1,54 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "content": "Does Java support multiple inheritance of classes?",
+      "correctAnswer": "No"
+    },
+    {
+      "id": 2,
+      "content": "Can you create an object of an abstract class in Java?",
+      "correctAnswer": "No"
+    },
+    {
+      "id": 3,
+      "content": "Does Java have automatic garbage collection?",
+      "correctAnswer": "Yes"
+    },
+    {
+      "id": 4,
+      "content": "Can an interface in Java contain method implementations?",
+      "correctAnswer": "Yes"
+    },
+    {
+      "id": 5,
+      "content": "Can static methods be overridden in Java?",
+      "correctAnswer": "No"
+    },
+    {
+      "id": 6,
+      "content": "Is Java used for Android app development?",
+      "correctAnswer": "Yes"
+    },
+    {
+      "id": 7,
+      "content": "Can arguments be passed by reference in Java?",
+      "correctAnswer": "No"
+    },
+    {
+      "id": 8,
+      "content": "Can Java handle multithreading?",
+      "correctAnswer": "Yes"
+    },
+    {
+      "id": 9,
+      "content": "Can you inherit from more than one class in Java?",
+      "correctAnswer": "No"
+    },
+    {
+      "id": 10,
+      "content": "Is Java used for creating web applications?",
+      "correctAnswer": "Yes"
+    }
+  ]
+}
