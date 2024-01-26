@@ -28,6 +28,11 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
+    public Question(Long id, String content) {
+        this.id = id;
+        this.content = content;
+    }
+
     // getters
 
     public Long getId() {

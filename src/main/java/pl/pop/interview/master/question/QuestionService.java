@@ -49,12 +49,11 @@ public class QuestionService {
 
     private Question mapToEntity(QuestionDTO questionDTO) {
         return new Question(
-                questionDTO.getContent(),
-                questionDTO.getCorrectAnswer()
-        );
+                questionDTO.getId(),
+                questionDTO.getContent());
     }
 
     private QuestionDTO mapToDto(Question question) {
-        return new QuestionDTO( question.getContent(), question.getCorrectAnswer() );
+        return new QuestionDTO( question.getId(), question.getContent());
     }
 }
