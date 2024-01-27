@@ -10,7 +10,7 @@ import java.util.Objects;
  */
 
 @Entity
-public class Question {
+class Question {
     @Id
     @GeneratedValue
     private Long id;

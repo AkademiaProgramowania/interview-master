@@ -6,7 +6,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping( path = "api/v1/questions" )
-public class QuestionController {
+class QuestionController {
     private final QuestionService questionService;
 
     public QuestionController( QuestionService questionService ) {

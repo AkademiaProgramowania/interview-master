@@ -1,5 +1,5 @@
 package pl.pop.interview.master.question;
 
-public enum YesNo {
+enum YesNo {
     YES, NO
 }
