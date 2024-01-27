@@ -1,18 +1,16 @@
 package pl.pop.interview.master.question;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 class QuestionManager implements QuestionFacade{
     private final QuestionRepository questionRepository;
-
-    public QuestionManager(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
-    }
 
     @PostConstruct
     private void saveBasicQuestions() {

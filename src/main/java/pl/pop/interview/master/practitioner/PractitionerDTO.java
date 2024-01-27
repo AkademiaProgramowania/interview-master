@@ -6,8 +6,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Data
-@Getter
-@Setter
 public class PractitionerDTO {
     private Long id;
 

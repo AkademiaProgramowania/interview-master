@@ -1,5 +1,6 @@
 package pl.pop.interview.master.account;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.pop.interview.master.practitioner.Practitioner;
@@ -8,17 +9,12 @@ import pl.pop.interview.master.practitioner.PractitionerFacade;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 class AccountManager implements AccountFacade {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final PractitionerFacade practitionerManager;
-
-    public AccountManager(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PractitionerFacade practitionerManager) {
-        this.accountRepository = accountRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.practitionerManager = practitionerManager;
-    }
 
     @Override
     public AccountDTO createNewAccount(AccountDTO accountDTO) {

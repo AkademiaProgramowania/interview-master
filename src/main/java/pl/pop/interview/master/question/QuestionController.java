@@ -1,21 +1,19 @@
 package pl.pop.interview.master.question;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping( path = "api/v1/questions" )
+@RequiredArgsConstructor
+@RequestMapping(path = "api/v1/questions")
 class QuestionController {
     private final QuestionManager questionManager;
 
-    public QuestionController( QuestionManager questionManager) {
-        this.questionManager = questionManager;
-    }
-
     @PostMapping
-    public void addNewQuestion( @RequestBody QuestionDTO questionDTO ) {
-        questionManager.addNewQuestion( questionDTO );
+    public void addNewQuestion(@RequestBody QuestionDTO questionDTO) {
+        questionManager.addNewQuestion(questionDTO);
     }
 
     @GetMapping
