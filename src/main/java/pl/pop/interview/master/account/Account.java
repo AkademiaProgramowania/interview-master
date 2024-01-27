@@ -10,7 +10,7 @@ import pl.pop.interview.master.practitioner.Practitioner;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Account {
+class Account {
 
     @Id
     private String email;

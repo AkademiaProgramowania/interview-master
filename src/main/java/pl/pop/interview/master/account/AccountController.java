@@ -1,26 +1,24 @@
 package pl.pop.interview.master.account;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "api/v1/accounts")
-public class AccountController {
+class AccountController {
 
     private final AccountService accountService;
 
-    public AccountController(AccountService accountService) {
-        this.accountService = accountService;
-    }
-
     @PostMapping
-    public void addNewAccount(@RequestBody AccountDTO accountDTO) {
+    void addNewAccount(@RequestBody AccountDTO accountDTO) {
         accountService.createNewAccount(accountDTO);
     }
 
     @GetMapping
-    public List<AccountDTO> listAccounts() {
+    List<AccountDTO> listAccounts() {
         return accountService.getAllAccounts();
     }
 
