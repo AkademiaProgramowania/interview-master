@@ -15,12 +15,12 @@ public class Account {
     @Id
     private String email;
     private String password;
+    @OneToOne
+    private Practitioner practitioner;
 
     public Account(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    @OneToOne
-    private Practitioner practitioner;
 }

@@ -1,5 +1,7 @@
 package pl.pop.interview.master.question;
 
+import lombok.ToString;
+
 /**
  * DTO objects are used as data transport structure. 
  * Transport takes place between the http request/response body (as JSON) and the business logic layer (Services).
@@ -10,21 +12,22 @@ package pl.pop.interview.master.question;
 
 public class QuestionDTO {
     private String content;
-    private YesNo correctAnswer;
+    private String correctAnswer;
 
     public QuestionDTO() {
     }
 
-    public QuestionDTO( String content, YesNo correctAnswer ) {
+    public QuestionDTO( String content, String correctAnswer ) {
         this.content = content;
         this.correctAnswer = correctAnswer;
     }
+
 
     public String getContent() {
         return content;
     }
 
-    public YesNo getCorrectAnswer() {
+    public String getCorrectAnswer() {
         return correctAnswer;
     }
 }

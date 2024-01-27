@@ -15,15 +15,14 @@ public class Question {
     @GeneratedValue
     private Long id;
     private String content;
-    @Enumerated( EnumType.STRING )
-    private YesNo correctAnswer;
+    private String correctAnswer;
 
     // constructors
 
     public Question() {
     }
 
-    public Question( String content, YesNo correctAnswer ) {
+    public Question( String content, String correctAnswer ) {
         this.content = content;
         this.correctAnswer = correctAnswer;
     }
@@ -38,7 +37,7 @@ public class Question {
         return content;
     }
 
-    public YesNo getCorrectAnswer() {
+    public String getCorrectAnswer() {
         return correctAnswer;
     }
 
@@ -48,7 +47,7 @@ public class Question {
         this.content = content;
     }
 
-    public void setCorrectAnswer( YesNo correctAnswer ) {
+    public void setCorrectAnswer( String correctAnswer ) {
         this.correctAnswer = correctAnswer;
     }
 
