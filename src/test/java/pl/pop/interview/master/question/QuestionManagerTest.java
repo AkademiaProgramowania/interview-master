@@ -15,17 +15,17 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith( MockitoExtension.class )
-public class QuestionServiceTest {
+public class QuestionManagerTest {
     @Mock
     private QuestionRepository questionRepository;
     @InjectMocks
-    private QuestionService questionService;
+    private QuestionManager questionManager;
 
     @Test
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
         QuestionDTO questionDTO = new QuestionDTO( "Is it ok?", YesNo.YES );
 
-        questionService.addNewQuestion( questionDTO );
+        questionManager.addNewQuestion( questionDTO );
 
         // capture Question object for test private method buildQuestionFromDTO( QuestionDTO questionDTO )
         ArgumentCaptor<Question> questionCaptor = ArgumentCaptor.forClass( Question.class );
@@ -48,7 +48,7 @@ public class QuestionServiceTest {
         // create an imitation of a repository that will return a expectedQuestions list
         when( questionRepository.findAll() ).thenReturn( expectedQuestions );
 
-        List<QuestionDTO> actualQuestionsDTO = questionService.getAllQuestions();
+        List<QuestionDTO> actualQuestionsDTO = questionManager.getAllQuestions();
 
         // we need to cast DTO to Question, cause service returns List<QuestionDTO>
         List<Question> actualQuestions = actualQuestionsDTO.stream()

@@ -7,19 +7,19 @@ import java.util.List;
 @RestController
 @RequestMapping( path = "api/v1/questions" )
 class QuestionController {
-    private final QuestionService questionService;
+    private final QuestionManager questionManager;
 
-    public QuestionController( QuestionService questionService ) {
-        this.questionService = questionService;
+    public QuestionController( QuestionManager questionManager) {
+        this.questionManager = questionManager;
     }
 
     @PostMapping
     public void addNewQuestion( @RequestBody QuestionDTO questionDTO ) {
-        questionService.addNewQuestion( questionDTO );
+        questionManager.addNewQuestion( questionDTO );
     }
 
     @GetMapping
     public List<QuestionDTO> getAllQuestions() {
-        return questionService.getAllQuestions();
+        return questionManager.getAllQuestions();
     }
 }

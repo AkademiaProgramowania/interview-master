@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class QuestionService {
+class QuestionManager implements QuestionFacade{
     private final QuestionRepository questionRepository;
 
-    public QuestionService(QuestionRepository questionRepository) {
+    public QuestionManager(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
@@ -35,12 +35,13 @@ public class QuestionService {
         questions.add(new Question("Czy Javie można używać do tworzenia aplikacji webowych?", YesNo.YES));
         return questions;
     }
-
+    @Override
     public void addNewQuestion(QuestionDTO questionDTO) {
         Question question = mapToEntity(questionDTO);
         questionRepository.save(question);
     }
 
+    @Override
     public List<QuestionDTO> getAllQuestions() {
         return questionRepository.findAll().stream()
                 .map( question -> mapToDto(question) )
