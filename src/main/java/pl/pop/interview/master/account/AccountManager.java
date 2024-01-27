@@ -4,7 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.pop.interview.master.practitioner.Practitioner;
 import pl.pop.interview.master.practitioner.PractitionerFacade;
-import pl.pop.interview.master.practitioner.PractitionerManager;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ class AccountManager implements AccountFacade {
     private final PasswordEncoder passwordEncoder;
     private final PractitionerFacade practitionerManager;
 
-    public AccountManager(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PractitionerManager practitionerManager) {
+    public AccountManager(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PractitionerFacade practitionerManager) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.practitionerManager = practitionerManager;

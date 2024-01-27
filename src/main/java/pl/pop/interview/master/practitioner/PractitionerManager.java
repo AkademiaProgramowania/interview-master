@@ -7,7 +7,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class PractitionerManager implements PractitionerFacade {
+class PractitionerManager implements PractitionerFacade {
 
     private final PractitionerRepository practitionerRepository;
     @Override
