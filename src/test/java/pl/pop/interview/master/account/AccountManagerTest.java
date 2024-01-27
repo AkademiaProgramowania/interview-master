@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AccountServiceTest {
+class AccountManagerTest {
 
     @Mock
     private AccountRepository accountRepository;
@@ -30,7 +30,7 @@ class AccountServiceTest {
     private PractitionerService practitionerService;
 
     @InjectMocks
-    private AccountService accountService;
+    private AccountManager accountManager;
 
     @Test
     void testCreateNewAccount() {
@@ -43,7 +43,7 @@ class AccountServiceTest {
         when(practitionerService.createNewPractitioner()).thenReturn(practitioner);
         when(accountRepository.save(any(Account.class))).thenReturn(result);
 
-        AccountDTO resultDTO = accountService.createNewAccount(inputDTO);
+        AccountDTO resultDTO = accountManager.createNewAccount(inputDTO);
         assertNull(resultDTO.getPassword()); //mapper sets hashed password to null to make it invisible
 
         // capture account object to test accountRepository.save method result
@@ -66,7 +66,7 @@ class AccountServiceTest {
 
         when(accountRepository.findAll()).thenReturn(accounts);
 
-        List<AccountDTO> resultList = accountService.getAllAccounts();
+        List<AccountDTO> resultList = accountManager.getAllAccounts();
         assertNotNull(resultList);
         assertEquals(2, resultList.size());
         assertEquals("email@gmail.com", resultList.get(0).getEmail());

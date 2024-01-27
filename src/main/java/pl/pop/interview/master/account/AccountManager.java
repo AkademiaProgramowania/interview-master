@@ -8,18 +8,19 @@ import pl.pop.interview.master.practitioner.PractitionerService;
 import java.util.List;
 
 @Service
-public class AccountService {
+class AccountManager implements AccountFacade {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final PractitionerService practitionerService;
 
-    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PractitionerService practitionerService) {
+    public AccountManager(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PractitionerService practitionerService) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.practitionerService = practitionerService;
     }
 
+    @Override
     public AccountDTO createNewAccount(AccountDTO accountDTO) {
         // ensure that there is no account with given email
         if (accountRepository.existsById(accountDTO.getEmail())) {
@@ -34,6 +35,7 @@ public class AccountService {
         return mapToDto(accountRepository.save(account));
     }
 
+    @Override
     public List<AccountDTO> getAllAccounts() {
         return accountRepository.findAll()
                 .stream()

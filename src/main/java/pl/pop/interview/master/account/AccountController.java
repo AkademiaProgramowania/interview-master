@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping(path = "api/v1/accounts")
 class AccountController {
 
-    private final AccountService accountService;
+    private final AccountFacade accountService;
 
     @PostMapping
     void addNewAccount(@RequestBody AccountDTO accountDTO) {
