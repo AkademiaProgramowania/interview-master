@@ -12,11 +12,11 @@ import java.util.List;
 @RequestMapping(path = "api/v1/practitioners")
 class PractitionerController {
 
-    private final PractitionerService practitionerService;
+    private final PractitionerManager practitionerManager;
 
     @GetMapping
     List<PractitionerDTO> listPractitioners() {
-        return practitionerService.listPractitioners();
+        return practitionerManager.listPractitioners();
     }
 
 }

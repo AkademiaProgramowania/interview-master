@@ -3,7 +3,8 @@ package pl.pop.interview.master.account;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.pop.interview.master.practitioner.Practitioner;
-import pl.pop.interview.master.practitioner.PractitionerService;
+import pl.pop.interview.master.practitioner.PractitionerFacade;
+import pl.pop.interview.master.practitioner.PractitionerManager;
 
 import java.util.List;
 
@@ -12,12 +13,12 @@ class AccountManager implements AccountFacade {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PractitionerService practitionerService;
+    private final PractitionerFacade practitionerManager;
 
-    public AccountManager(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PractitionerService practitionerService) {
+    public AccountManager(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PractitionerManager practitionerManager) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
-        this.practitionerService = practitionerService;
+        this.practitionerManager = practitionerManager;
     }
 
     @Override
@@ -30,7 +31,7 @@ class AccountManager implements AccountFacade {
         String hashedPassword = passwordEncoder.encode(accountDTO.getPassword());
         Account account = new Account(accountDTO.getEmail(), hashedPassword);
         // create a new practitioner and set to the account
-        Practitioner practitioner = practitionerService.createNewPractitioner();
+        Practitioner practitioner = practitionerManager.createNewPractitioner();
         account.setPractitioner(practitioner);
         return mapToDto(accountRepository.save(account));
     }

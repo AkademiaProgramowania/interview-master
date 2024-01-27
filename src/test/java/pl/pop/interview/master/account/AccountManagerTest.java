@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.pop.interview.master.practitioner.Practitioner;
-import pl.pop.interview.master.practitioner.PractitionerService;
+import pl.pop.interview.master.practitioner.PractitionerManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,7 @@ class AccountManagerTest {
     private PasswordEncoder passwordEncoder;
 
     @Mock
-    private PractitionerService practitionerService;
+    private PractitionerManager practitionerManager;
 
     @InjectMocks
     private AccountManager accountManager;
@@ -40,7 +40,7 @@ class AccountManagerTest {
 
         when(accountRepository.existsById(inputDTO.getEmail())).thenReturn(false);
         when(passwordEncoder.encode(inputDTO.getPassword())).thenReturn("hashedPassword");
-        when(practitionerService.createNewPractitioner()).thenReturn(practitioner);
+        when(practitionerManager.createNewPractitioner()).thenReturn(practitioner);
         when(accountRepository.save(any(Account.class))).thenReturn(result);
 
         AccountDTO resultDTO = accountManager.createNewAccount(inputDTO);

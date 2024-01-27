@@ -7,16 +7,16 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class PractitionerService {
+public class PractitionerManager implements PractitionerFacade {
 
     private final PractitionerRepository practitionerRepository;
-
+    @Override
     public Practitioner createNewPractitioner() {
         // create a new practitioner called only in creating new account
         Practitioner practitioner = new Practitioner();
         return practitionerRepository.save(practitioner);
     }
-
+    @Override
     public List<PractitionerDTO> listPractitioners() {
         return practitionerRepository.findAll()
                 .stream()
