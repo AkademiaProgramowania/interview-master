@@ -10,12 +10,12 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping(path = "api/v1/practitioners")
-public class PractitionerController {
+class PractitionerController {
 
     private final PractitionerService practitionerService;
 
     @GetMapping
-    public List<PractitionerDTO> listPractitioners() {
+    List<PractitionerDTO> listPractitioners() {
         return practitionerService.listPractitioners();
     }
 
