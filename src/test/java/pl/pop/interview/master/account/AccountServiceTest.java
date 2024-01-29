@@ -35,7 +35,8 @@ class AccountServiceTest {
     @Test
     void testCreateNewAccount() {
         AccountDTO inputDTO = new AccountDTO("email@gmail.com", "password");
-        Practitioner practitioner = new Practitioner(1L);
+        Practitioner practitioner = new Practitioner();
+        practitioner.setId(1L);
         Account result = new Account("email@gmail.com", "hashedPassword", practitioner);
 
         when(accountRepository.existsById(inputDTO.getEmail())).thenReturn(false);

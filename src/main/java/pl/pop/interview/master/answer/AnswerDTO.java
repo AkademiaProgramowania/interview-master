@@ -14,7 +14,7 @@ public class AnswerDTO {
     private String answer;
     private String result;
 
-    public AnswerDTO(String question, String answer, String result) { // app does not see lombok constructor...
+    public AnswerDTO(String question, String answer, String result) {
         this.question = question;
         this.answer = answer;
         this.result = result;

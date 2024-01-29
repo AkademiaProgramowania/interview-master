@@ -16,8 +16,7 @@ public class AnswerController {
     // random question for user
     @GetMapping("/question")
     public ResponseEntity<QuestionDTO> getRandomQuestion() {
-        Question randomQuestion = answerService.generateRandomQuestion();
-        QuestionDTO questionDTO = new QuestionDTO(randomQuestion.getId(), randomQuestion.getContent());
+        QuestionDTO questionDTO = answerService.findRandomQuestion();
         return new ResponseEntity<>(questionDTO, HttpStatus.OK);
     }
 

@@ -21,9 +21,9 @@ public class QuestionServiceTest {
     @InjectMocks
     private QuestionService questionService;
 
-/*    @Test
+    @Test
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
-        QuestionDTO questionDTO = new QuestionDTO( "Is it ok?", YesNo.YES );
+        QuestionDTO questionDTO = new QuestionDTO( 1L, "Is it ok?", YesNo.YES );
 
         questionService.addNewQuestion( questionDTO );
 
@@ -35,14 +35,13 @@ public class QuestionServiceTest {
         Question capturedQuestion = questionCaptor.getValue();
 
         assertEquals( questionDTO.getContent(), capturedQuestion.getContent() );
-        assertEquals( questionDTO.getCorrectAnswer(), capturedQuestion.getCorrectAnswer() );
-    }*/
+    }
 
-/*    @Test
+    @Test
     public void testGetAllQuestions_SuccessfulReturnedQuestions() {
         List<Question> expectedQuestions = Arrays.asList(
-                new Question( "Is it ok?", YesNo.YES ),
-                new Question( "Is it bad?", YesNo.NO )
+                new Question( 1L,"Is it ok?", YesNo.YES ),
+                new Question( 2L,"Is it bad?", YesNo.NO )
         );
 
         // create an imitation of a repository that will return a expectedQuestions list
@@ -56,6 +55,7 @@ public class QuestionServiceTest {
                         .toList();
 
         assertEquals( expectedQuestions.size(), actualQuestions.size() );
-        assertIterableEquals( expectedQuestions, actualQuestions );
-    }*/
+        assertEquals( expectedQuestions.get(0).getContent(), actualQuestions.get(0).getContent());
+        assertNull(actualQuestions.get(0).getCorrectAnswer());
+    }
 }
