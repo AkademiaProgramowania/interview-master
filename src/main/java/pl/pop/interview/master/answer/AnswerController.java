@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.pop.interview.master.question.Question;
 import pl.pop.interview.master.question.QuestionDTO;
 
 @RestController

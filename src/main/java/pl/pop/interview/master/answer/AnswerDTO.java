@@ -19,4 +19,8 @@ public class AnswerDTO {
         this.answer = answer;
         this.result = result;
     }
+
+    public static AnswerDTO mapToDto(Answer answer) {
+        return new AnswerDTO(answer.getQuestionContent(), answer.getAnswer(), answer.getResult());
+    }
 }

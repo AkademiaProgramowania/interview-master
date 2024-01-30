@@ -1,11 +1,13 @@
 package pl.pop.interview.master.practitioner;
 
-import jakarta.persistence.*;
-import lombok.*;
-import pl.pop.interview.master.answer.Answer;
-
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
@@ -19,6 +21,7 @@ public class Practitioner {
     private Long id;
 
     public Practitioner(Long id) {
+        this.id = id;
     }
 
 }

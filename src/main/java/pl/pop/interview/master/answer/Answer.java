@@ -16,14 +16,20 @@ public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String question;
+    private Long id;
+    private String questionContent;
     private String answer;
     private String result;
 
-    public Answer(String question, String answer, String result) {
-        this.question = question;
-        this.answer = answer;
-        this.result = result;
+    public String getQuestionContent() {
+        return questionContent;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public String getResult() {
+        return result;
     }
 }

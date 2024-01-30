@@ -1,8 +1,5 @@
 package pl.pop.interview.master.question;
-
-
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
 /**
@@ -23,16 +20,11 @@ public class Question {
     public Question() {
     }
 
-    public Question( String content, YesNo correctAnswer ) { // konstruktor dla admina do dodawania nowego pytania
+    public Question( String content, YesNo correctAnswer ) {
         this.content = content;
         this.correctAnswer = correctAnswer;
     }
 
-    public Question(Long id, String content, YesNo correctAnswer) { // konstruktor dla admina do updatowania listy pytań
-        this.id = id;
-        this.content = content;
-        this.correctAnswer = correctAnswer;
-    }
     // getters
 
     public Long getId() {

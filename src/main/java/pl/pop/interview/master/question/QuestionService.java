@@ -49,7 +49,6 @@ public class QuestionService {
 
     private Question mapToEntity(QuestionDTO questionDTO) {
         return new Question(
-                questionDTO.getId(),
                 questionDTO.getContent(),
                 questionDTO.getCorrectAnswer());
     }

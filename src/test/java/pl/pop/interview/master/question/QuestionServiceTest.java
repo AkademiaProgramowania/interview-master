@@ -23,7 +23,9 @@ public class QuestionServiceTest {
 
     @Test
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
-        QuestionDTO questionDTO = new QuestionDTO( 1L, "Is it ok?", YesNo.YES );
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setContent("Is it ok?");
+        questionDTO.setCorrectAnswer(YesNo.YES );
 
         questionService.addNewQuestion( questionDTO );
 
@@ -40,8 +42,8 @@ public class QuestionServiceTest {
     @Test
     public void testGetAllQuestions_SuccessfulReturnedQuestions() {
         List<Question> expectedQuestions = Arrays.asList(
-                new Question( 1L,"Is it ok?", YesNo.YES ),
-                new Question( 2L,"Is it bad?", YesNo.NO )
+                new Question( "Is it ok?", YesNo.YES ),
+                new Question( "Is it bad?", YesNo.NO )
         );
 
         // create an imitation of a repository that will return a expectedQuestions list

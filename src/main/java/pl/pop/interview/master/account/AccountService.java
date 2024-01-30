@@ -44,7 +44,7 @@ public class AccountService {
     private AccountDTO mapToDto(Account account) {
         AccountDTO accountDTO = new AccountDTO();
         accountDTO.setEmail(account.getEmail());
-        accountDTO.setPassword(null); // good practice: password fields not visible in result DTO // todo spr czy jeśli null to nie dawać do jsona zbędnego pola
+        accountDTO.setPassword(null); // good practice: password fields not visible in result DTO
         if (account.getPractitioner() != null) {
             accountDTO.setPractitionerId(account.getPractitioner().getId());
         }
