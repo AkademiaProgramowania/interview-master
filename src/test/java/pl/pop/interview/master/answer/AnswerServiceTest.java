@@ -2,12 +2,10 @@ package pl.pop.interview.master.answer;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import pl.pop.interview.master.question.*;
 
 import java.util.Optional;
@@ -18,7 +16,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-//@RunWith(SpringRunner.class)
 class AnswerServiceTest {
     @Mock
     private AnswerRepository answerRepository;
@@ -54,7 +51,7 @@ class AnswerServiceTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerCorrect);
 
-        AnswerDTO resultCorrect = answerService.saveNewAnswer(1L, "YES");
+        AnswerDTO resultCorrect = answerService.save(1L, "YES");
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
@@ -79,7 +76,7 @@ class AnswerServiceTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerIncorrect);
 
-        AnswerDTO resultIncorrect = answerService.saveNewAnswer(1L, "NO");
+        AnswerDTO resultIncorrect = answerService.save(1L, "NO");
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());

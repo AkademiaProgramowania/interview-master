@@ -7,11 +7,11 @@ import jakarta.persistence.Id;
 import lombok.*;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Answer {
 
     @Id
@@ -21,15 +21,4 @@ public class Answer {
     private String answer;
     private String result;
 
-    public String getQuestionContent() {
-        return questionContent;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public String getResult() {
-        return result;
-    }
 }

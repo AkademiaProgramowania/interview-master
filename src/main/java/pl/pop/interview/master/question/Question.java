@@ -25,7 +25,7 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
-    // getters
+// getters
 
     public Long getId() {
         return id;

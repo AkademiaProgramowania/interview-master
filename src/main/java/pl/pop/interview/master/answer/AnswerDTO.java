@@ -2,25 +2,22 @@ package pl.pop.interview.master.answer;
 
 import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Data
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AnswerDTO {
     private int id;
     private String question;
     private String answer;
     private String result;
 
-    public AnswerDTO(String question, String answer, String result) {
-        this.question = question;
-        this.answer = answer;
-        this.result = result;
-    }
-
     public static AnswerDTO mapToDto(Answer answer) {
-        return new AnswerDTO(answer.getQuestionContent(), answer.getAnswer(), answer.getResult());
+        return AnswerDTO.builder()
+                .question(answer.getQuestionContent())
+                .answer(answer.getAnswer())
+                .result(answer.getResult())
+                .build();
     }
 }

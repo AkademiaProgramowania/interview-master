@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.pop.interview.master.question.QuestionDTO;
 
 @RestController
-@RequestMapping("api/v1/questions")
+@RequestMapping("api/v1/answers")
 @RequiredArgsConstructor
 public class AnswerController {
     private final AnswerService answerService;
@@ -19,9 +19,9 @@ public class AnswerController {
         return new ResponseEntity<>(questionDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/answers")
-    public ResponseEntity<String> saveNewAnswer(@PathVariable Long id, @RequestBody AnswerDTO answerDTO) {
-        AnswerDTO newAnswer = answerService.saveNewAnswer(id, answerDTO.getAnswer());
+    @PostMapping("/{questionId}")
+    public ResponseEntity<String> save(@PathVariable Long questionId, @RequestBody AnswerDTO answerDTO) {
+        AnswerDTO newAnswer = answerService.save(questionId, answerDTO.getAnswer());
         return new ResponseEntity<>(newAnswer.getResult(), HttpStatus.CREATED);
     }
 }

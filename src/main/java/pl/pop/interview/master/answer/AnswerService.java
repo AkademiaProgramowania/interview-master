@@ -34,13 +34,12 @@ public class AnswerService {
         return questionService.mapToDto(question);
     }
 
-    public AnswerDTO saveNewAnswer(Long id, String answer) {
-        Question question = questionRepository.findById(id).orElseThrow(() -> new NotFoundException("Question not found"));
+    public AnswerDTO save(Long questionId, String answer) {
+        Question question = questionRepository.findById(questionId).orElseThrow(() -> new NotFoundException("Question not found"));
         // check if the answer is correct, comparing to question
         boolean isCorrect = Objects.equals(answer, question.getCorrectAnswer().toString());
         // new Answer with question content, submitted answer and result
-        // dopóki nie ma połączonych tabel, treść pytania jest widoczna w Answer na potrzeby podglądu w konsoli h2
-        Answer newAnswer = new Answer(id, question.getContent(), answer, isCorrect? "Correct answer" : "Incorrect answer or answer format YES/NO");
+        Answer newAnswer = new Answer(questionId, question.getContent(), answer, isCorrect? "Correct answer" : "Incorrect answer or answer format YES/NO");
         return AnswerDTO.mapToDto(answerRepository.save(newAnswer));
     }
 }
