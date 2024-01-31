@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.pop.interview.master.question.QuestionDTO;
 
 @RestController
-@RequestMapping("api/v1/answers")
 @RequiredArgsConstructor
+@RequestMapping("api/v1/answers")
 public class AnswerController {
     private final AnswerService answerService;
 
