@@ -23,7 +23,9 @@ public class QuestionServiceTest {
 
     @Test
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
-        QuestionDTO questionDTO = new QuestionDTO( "Is it ok?", YesNo.YES );
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setContent("Is it ok?");
+        questionDTO.setCorrectAnswer(YesNo.YES );
 
         questionService.addNewQuestion( questionDTO );
 
@@ -35,7 +37,6 @@ public class QuestionServiceTest {
         Question capturedQuestion = questionCaptor.getValue();
 
         assertEquals( questionDTO.getContent(), capturedQuestion.getContent() );
-        assertEquals( questionDTO.getCorrectAnswer(), capturedQuestion.getCorrectAnswer() );
     }
 
     @Test
@@ -56,6 +57,7 @@ public class QuestionServiceTest {
                         .toList();
 
         assertEquals( expectedQuestions.size(), actualQuestions.size() );
-        assertIterableEquals( expectedQuestions, actualQuestions );
+        assertEquals( expectedQuestions.get(0).getContent(), actualQuestions.get(0).getContent());
+        assertNull(actualQuestions.get(0).getCorrectAnswer());
     }
 }

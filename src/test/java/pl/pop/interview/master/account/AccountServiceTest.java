@@ -20,22 +20,22 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AccountServiceTest {
-
     @Mock
     private AccountRepository accountRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
-
     @Mock
     private PractitionerService practitionerService;
-
     @InjectMocks
     private AccountService accountService;
 
     @Test
     void testCreateNewAccount() {
-        AccountDTO inputDTO = new AccountDTO("email@gmail.com", "password");
-        Practitioner practitioner = new Practitioner(1L);
+        AccountDTO inputDTO = new AccountDTO();
+        inputDTO.setEmail("email@gmail.com");
+        inputDTO.setPassword("password");
+        Practitioner practitioner = new Practitioner();
+        practitioner.setId(1L);
         Account result = new Account("email@gmail.com", "hashedPassword", practitioner);
 
         when(accountRepository.existsById(inputDTO.getEmail())).thenReturn(false);
@@ -60,9 +60,13 @@ class AccountServiceTest {
 
     @Test
     void listAccounts() {
-        List<Account> accounts = Arrays.asList(
-                new Account("email@gmail.com", "password"),
-                new Account("email2@gmail.com", "password2"));
+        Account account1 = new Account();
+        account1.setEmail("email@gmail.com");
+        account1.setPassword("password");
+        Account account2 = new Account();
+        account2.setEmail("email2@gmail.com");
+        account2.setEmail("password2");
+        List<Account> accounts = Arrays.asList(account1, account2);
 
         when(accountRepository.findAll()).thenReturn(accounts);
 

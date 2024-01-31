@@ -7,24 +7,33 @@ package pl.pop.interview.master.question;
  * 
  * Getters and no-args constructor are required by the Jackson library for JSON serialization/deserialization.
  */
-
 public class QuestionDTO {
+    private Long id; // dodane pole by móc wyświetlić userowi pytanie z id a bez odpowiedzi
     private String content;
     private YesNo correctAnswer;
 
     public QuestionDTO() {
     }
-
-    public QuestionDTO( String content, YesNo correctAnswer ) {
+    public QuestionDTO(Long id, String content) {
+        this.id = id;
         this.content = content;
-        this.correctAnswer = correctAnswer;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getContent() {
         return content;
     }
-
     public YesNo getCorrectAnswer() {
         return correctAnswer;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+    public void setCorrectAnswer(YesNo correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 }
