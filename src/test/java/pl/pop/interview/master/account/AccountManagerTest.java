@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.pop.interview.master.practitioner.Practitioner;
-import pl.pop.interview.master.practitioner.PractitionerService;
+import pl.pop.interview.master.practitioner.PractitionerFacade;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,15 +19,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AccountServiceTest {
+class AccountManagerTest {
+
     @Mock
     private AccountRepository accountRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
-    private PractitionerService practitionerService;
+    private PractitionerFacade practitionerManager;
     @InjectMocks
-    private AccountService accountService;
+    private AccountManager accountManager;
 
     @Test
     void testCreateNewAccount() {
@@ -40,10 +41,10 @@ class AccountServiceTest {
 
         when(accountRepository.existsById(inputDTO.getEmail())).thenReturn(false);
         when(passwordEncoder.encode(inputDTO.getPassword())).thenReturn("hashedPassword");
-        when(practitionerService.createNewPractitioner()).thenReturn(practitioner);
+        when(practitionerManager.createNewPractitioner()).thenReturn(practitioner);
         when(accountRepository.save(any(Account.class))).thenReturn(result);
 
-        AccountDTO resultDTO = accountService.createNewAccount(inputDTO);
+        AccountDTO resultDTO = accountManager.createNewAccount(inputDTO);
         assertNull(resultDTO.getPassword()); //mapper sets hashed password to null to make it invisible
 
         // capture account object to test accountRepository.save method result
@@ -70,7 +71,7 @@ class AccountServiceTest {
 
         when(accountRepository.findAll()).thenReturn(accounts);
 
-        List<AccountDTO> resultList = accountService.getAllAccounts();
+        List<AccountDTO> resultList = accountManager.getAllAccounts();
         assertNotNull(resultList);
         assertEquals(2, resultList.size());
         assertEquals("email@gmail.com", resultList.get(0).getEmail());

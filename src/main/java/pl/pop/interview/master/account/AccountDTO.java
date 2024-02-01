@@ -4,9 +4,8 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class AccountDTO {
     private String email;
     private String password;

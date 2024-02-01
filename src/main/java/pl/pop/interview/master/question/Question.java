@@ -1,5 +1,9 @@
 package pl.pop.interview.master.question;
 import jakarta.persistence.*;
+import lombok.*;
+import pl.pop.interview.master.answer.Answer;
+
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -7,60 +11,22 @@ import java.util.Objects;
  */
 
 @Entity
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Question {
     @Id
     @GeneratedValue
     private Long id;
     private String content;
-    @Enumerated( EnumType.STRING )
-    private YesNo correctAnswer;
+    private boolean correctAnswer;
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    private List<Answer> answer;
 
-    // constructors
-
-    public Question() {
-    }
-
-    public Question( String content, YesNo correctAnswer ) {
+    public Question(String content, boolean correctAnswer) {
         this.content = content;
         this.correctAnswer = correctAnswer;
-    }
-
-// getters
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public YesNo getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    // setters
-
-    public void setContent( String content ) {
-        this.content = content;
-    }
-
-    public void setCorrectAnswer( YesNo correctAnswer ) {
-        this.correctAnswer = correctAnswer;
-    }
-
-    @Override
-    public boolean equals( Object obj ) {
-        if ( this == obj ) return true;
-        if ( obj == null || getClass() != obj.getClass() ) return false;
-
-        Question question = ( Question ) obj;
-
-        return Objects.equals( content, question.content ) && correctAnswer == question.getCorrectAnswer();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash( content, correctAnswer );
     }
 }

@@ -1,8 +1,8 @@
 package pl.pop.interview.master.practitioner;
 
-public class PractitionerServiceException extends RuntimeException{
+class PractitionerServiceException extends RuntimeException {
 
-    public PractitionerServiceException(String message) {
+    PractitionerServiceException(String message) {
         super(message);
     }
 }
