@@ -1,5 +1,8 @@
 package pl.pop.interview.master.question;
 import jakarta.persistence.*;
+import pl.pop.interview.master.answer.Answer;
+
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,6 +17,8 @@ public class Question {
     private String content;
     @Enumerated( EnumType.STRING )
     private YesNo correctAnswer;
+    @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
+    private List<Answer> answer;
 
     // constructors
 
