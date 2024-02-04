@@ -16,7 +16,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-class Question {
+public class Question {
     @Id
     @GeneratedValue
     private Long id;
