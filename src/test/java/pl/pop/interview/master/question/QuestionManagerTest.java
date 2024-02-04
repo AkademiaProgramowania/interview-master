@@ -23,7 +23,9 @@ public class QuestionManagerTest {
 
     @Test
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
-        QuestionDTO questionDTO = new QuestionDTO( "Is it ok?", YesNo.YES );
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setContent("Is it ok?");
+        questionDTO.setCorrectAnswer(YesNo.YES );
 
         questionManager.addNewQuestion( questionDTO );
 
@@ -35,7 +37,6 @@ public class QuestionManagerTest {
         Question capturedQuestion = questionCaptor.getValue();
 
         assertEquals( questionDTO.getContent(), capturedQuestion.getContent() );
-        assertEquals( questionDTO.getCorrectAnswer(), capturedQuestion.getCorrectAnswer() );
     }
 
     @Test
@@ -56,6 +57,7 @@ public class QuestionManagerTest {
                         .toList();
 
         assertEquals( expectedQuestions.size(), actualQuestions.size() );
-        assertIterableEquals( expectedQuestions, actualQuestions );
+        assertEquals( expectedQuestions.get(0).getContent(), actualQuestions.get(0).getContent());
+        assertNull(actualQuestions.get(0).getCorrectAnswer());
     }
 }

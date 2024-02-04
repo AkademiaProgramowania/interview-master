@@ -21,6 +21,4 @@ class AccountController {
     List<AccountDTO> listAccounts() {
         return accountService.getAllAccounts();
     }
-
-
 }

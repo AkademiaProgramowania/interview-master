@@ -22,17 +22,7 @@ class PractitionerManager implements PractitionerFacade {
     public List<PractitionerDTO> listPractitioners() {
         return practitionerRepository.findAll()
                 .stream()
-                .map(practitioner -> buildPractitionerDTOFromPractitioner(practitioner))
+                .map(PractitionerDTO::mapToDTO)
                 .toList();
-    }
-
-    private PractitionerDTO buildPractitionerDTOFromPractitioner(Practitioner practitioner) {
-        PractitionerDTO practitionerDTO = new PractitionerDTO();
-        practitionerDTO.setId(practitioner.getId());
-        return practitionerDTO;
-    }
-
-    private Practitioner buildPractitionerFromPractitionerDTO(PractitionerDTO practitionerDTO) {
-        return new Practitioner(practitionerDTO.getId());
     }
 }

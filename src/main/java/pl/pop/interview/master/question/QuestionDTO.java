@@ -13,7 +13,14 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class QuestionDTO {
+    private Long id; // dodane pole by móc wyświetlić userowi pytanie z id a bez odpowiedzi
     private String content;
     private YesNo correctAnswer;
 
+    public QuestionDTO() {
+    }
+    public QuestionDTO(Long id, String content) {
+        this.id = id;
+        this.content = content;
+    }
 }

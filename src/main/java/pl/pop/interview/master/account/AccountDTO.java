@@ -12,9 +12,14 @@ public class AccountDTO {
     private String password;
     private Long practitionerId;
 
-    public AccountDTO(String email, String password) {
-        this.email = email;
-        this.password = password;
+    public static AccountDTO mapToDto(Account account) {
+        AccountDTO accountDTO = new AccountDTO();
+        accountDTO.setEmail(account.getEmail());
+        accountDTO.setPassword(null); // good practice: password fields not visible in result DTO
+        if (account.getPractitioner() != null) {
+            accountDTO.setPractitionerId(account.getPractitioner().getId());
+        }
+        return accountDTO;
     }
 
 }
