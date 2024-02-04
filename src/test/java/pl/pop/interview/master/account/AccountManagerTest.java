@@ -19,23 +19,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-<<<<<<< HEAD:src/test/java/pl/pop/interview/master/account/AccountManagerTest.java
 class AccountManagerTest {
 
-=======
-class AccountServiceTest {
->>>>>>> b5e8594e4583f726e0615b5f52807170f9e44415:src/test/java/pl/pop/interview/master/account/AccountServiceTest.java
     @Mock
     private AccountRepository accountRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
-<<<<<<< HEAD:src/test/java/pl/pop/interview/master/account/AccountManagerTest.java
     private PractitionerFacade practitionerManager;
-
-=======
-    private PractitionerService practitionerService;
->>>>>>> b5e8594e4583f726e0615b5f52807170f9e44415:src/test/java/pl/pop/interview/master/account/AccountServiceTest.java
     @InjectMocks
     private AccountManager accountManager;
 

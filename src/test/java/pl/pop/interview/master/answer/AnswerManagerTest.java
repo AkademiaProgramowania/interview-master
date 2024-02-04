@@ -16,15 +16,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AnswerServiceTest {
+class AnswerManagerTest {
     @Mock
     private AnswerRepository answerRepository;
     @Mock
     private QuestionRepository questionRepository;
     @Mock
-    private QuestionService questionService;
+    private QuestionFacade questionService;
     @InjectMocks
-    private AnswerService answerService;
+    private AnswerManager answerManager;
 
     @Test
     public void testFindRandomQuestion() {
@@ -34,8 +34,8 @@ class AnswerServiceTest {
         questionRepository.save(question);
         when(questionRepository.findRandomQuestion()).thenReturn(Optional.of(question));
         when(questionService.mapToDto(question)).thenReturn(questionDTO);
-        assertSame(questionDTO, answerService.findRandomQuestion());
-        assertNotSame(questionDTO2, answerService.findRandomQuestion());
+        assertSame(questionDTO, answerManager.findRandomQuestion());
+        assertNotSame(questionDTO2, answerManager.findRandomQuestion());
     }
 
     @Test
@@ -51,7 +51,7 @@ class AnswerServiceTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerCorrect);
 
-        AnswerDTO resultCorrect = answerService.save(1L, "YES");
+        AnswerDTO resultCorrect = answerManager.save(1L, "YES");
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
@@ -76,7 +76,7 @@ class AnswerServiceTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerIncorrect);
 
-        AnswerDTO resultIncorrect = answerService.save(1L, "NO");
+        AnswerDTO resultIncorrect = answerManager.save(1L, "NO");
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());

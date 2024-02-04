@@ -8,4 +8,5 @@ import java.util.List;
 public interface QuestionFacade {
     void addNewQuestion(QuestionDTO questionDTO);
     List<QuestionDTO> getAllQuestions();
+    QuestionDTO mapToDto(Question question);
 }
