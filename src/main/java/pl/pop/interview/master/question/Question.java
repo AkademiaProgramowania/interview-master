@@ -1,8 +1,5 @@
 package pl.pop.interview.master.question;
-
-
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
 /**
@@ -27,7 +24,7 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
-    // getters
+// getters
 
     public Long getId() {
         return id;

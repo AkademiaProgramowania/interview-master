@@ -1,7 +1,5 @@
 package pl.pop.interview.master.question;
 
-import lombok.ToString;
-
 /**
  * DTO objects are used as data transport structure. 
  * Transport takes place between the http request/response body (as JSON) and the business logic layer (Services).
@@ -11,23 +9,35 @@ import lombok.ToString;
  */
 
 public class QuestionDTO {
+    private Long id; // dodane pole by móc wyświetlić userowi pytanie z id a bez odpowiedzi
     private String content;
     private String correctAnswer;
 
     public QuestionDTO() {
     }
 
-    public QuestionDTO( String content, String correctAnswer ) {
+    public QuestionDTO(Long id, String content) {
+        this.id = id;
         this.content = content;
-        this.correctAnswer = correctAnswer;
     }
 
+    public Long getId() {
+        return id;
+    }
 
     public String getContent() {
         return content;
     }
 
+
     public String getCorrectAnswer() {
         return correctAnswer;
+}
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 }

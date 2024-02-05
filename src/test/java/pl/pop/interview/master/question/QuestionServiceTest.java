@@ -23,7 +23,9 @@ public class QuestionServiceTest {
 
     @Test
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
-        QuestionDTO questionDTO = new QuestionDTO( "Is it ok?", "Yes" );
+        QuestionDTO questionDTO = new QuestionDTO();
+        questionDTO.setContent("Is it ok?");
+        questionDTO.setCorrectAnswer("Yes");
 
         questionService.addNewQuestion( questionDTO );
 
