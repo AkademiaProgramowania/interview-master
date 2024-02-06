@@ -21,6 +21,12 @@ public class QuestionDTO {
         this.content = content;
     }
 
+    public QuestionDTO(Long id, String content, String correctAnswer) {
+        this.id = id;
+        this.content = content;
+        this.correctAnswer = correctAnswer;
+    }
+
     public Long getId() {
         return id;
     }

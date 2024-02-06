@@ -32,6 +32,6 @@ public class QuestionService {
     }
 
     public QuestionDTO mapToDto(Question question) {
-        return new QuestionDTO(question.getId(), question.getContent());
+        return new QuestionDTO(question.getId(), question.getContent(), question.getCorrectAnswer());
     }
 }

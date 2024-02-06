@@ -58,6 +58,11 @@ public class QuestionServiceTest {
                         .toList();
 
         assertEquals( expectedQuestions.size(), actualQuestions.size() );
-        assertIterableEquals( expectedQuestions, actualQuestions );
+        assertAll(
+                () -> assertEquals(expectedQuestions.get(0).getContent(), actualQuestions.get(0).getContent()),
+                () -> assertEquals(expectedQuestions.get(0).getCorrectAnswer(), actualQuestions.get(0).getCorrectAnswer()),
+                () -> assertEquals(expectedQuestions.get(1).getContent(), actualQuestions.get(1).getContent()),
+                () -> assertEquals(expectedQuestions.get(1).getCorrectAnswer(), actualQuestions.get(1).getCorrectAnswer())
+                );
     }
 }

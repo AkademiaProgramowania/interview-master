@@ -15,8 +15,8 @@ import java.io.IOException;
 @Component
 public class QuestionUploader {
     private static final String DATABASE_UPDATED_QUESTIONS_ADDED = "Database updated - questions added";
-    private ObjectMapper objectMapper;
-    private QuestionService questionService;
+    private final ObjectMapper objectMapper;
+    private final QuestionService questionService;
 
     public QuestionUploader(ObjectMapper objectMapper, QuestionService questionService) {
         this.objectMapper = objectMapper;
