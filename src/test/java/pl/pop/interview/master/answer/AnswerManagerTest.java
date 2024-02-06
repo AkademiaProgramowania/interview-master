@@ -40,10 +40,10 @@ class AnswerManagerTest {
 
     @Test
     public void testSaveNewCorrectAnswer() {
-        Question question1 = new Question("Question1Content", YesNo.YES);
+        Question question1 = new Question("Question1Content", "Yes");
         Answer answerCorrect = new Answer();
         answerCorrect.setQuestionContent("Question1Content");
-        answerCorrect.setAnswer("YES");
+        answerCorrect.setAnswer("Yes");
         answerCorrect.setResult("Correct answer");
         AnswerDTO answerDTOCorrect = new AnswerDTO();
         answerDTOCorrect.setResult("Correct answer");
@@ -51,40 +51,40 @@ class AnswerManagerTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerCorrect);
 
-        AnswerDTO resultCorrect = answerManager.save(1L, "YES");
+        AnswerDTO resultCorrect = answerManager.save(1L, "Yes");
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
         Answer savedAnswer = answerCaptor.getValue();
 
         assertEquals(question1.getContent(), savedAnswer.getQuestionContent());
-        assertEquals(question1.getCorrectAnswer().toString(), savedAnswer.getAnswer());
+        assertEquals(question1.getCorrectAnswer(), savedAnswer.getAnswer());
         assertEquals(question1.getContent(), resultCorrect.getQuestion());
-        assertEquals(question1.getCorrectAnswer().toString(), resultCorrect.getAnswer());
+        assertEquals(question1.getCorrectAnswer(), resultCorrect.getAnswer());
     }
 
     @Test
     public void testSaveIncorrectAnswer() {
-        Question question1 = new Question("QuestionContent", YesNo.YES);
+        Question question1 = new Question("QuestionContent", "Yes");
         Answer answerIncorrect = new Answer();
         answerIncorrect.setQuestionContent("QuestionContent");
-        answerIncorrect.setAnswer("NO");
-        answerIncorrect.setResult("Incorrect answer or answer format YES/NO");
+        answerIncorrect.setAnswer("No");
+        answerIncorrect.setResult("Incorrect answer or answer format Yes/No");
         AnswerDTO answerDTOIncorrect = new AnswerDTO();
-        answerDTOIncorrect.setResult("Incorrect answer or answer format YES/NO");
+        answerDTOIncorrect.setResult("Incorrect answer or answer format Yes/No");
 
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerIncorrect);
 
-        AnswerDTO resultIncorrect = answerManager.save(1L, "NO");
+        AnswerDTO resultIncorrect = answerManager.save(1L, "No");
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
         Answer savedAnswer = answerCaptor.getValue();
 
         assertEquals(question1.getContent(), savedAnswer.getQuestionContent());
-        assertNotEquals(question1.getCorrectAnswer().toString(), savedAnswer.getAnswer());
+        assertNotEquals(question1.getCorrectAnswer(), savedAnswer.getAnswer());
         assertEquals(question1.getContent(), resultIncorrect.getQuestion());
-        assertNotEquals(question1.getCorrectAnswer().toString(), resultIncorrect.getAnswer());
+        assertNotEquals(question1.getCorrectAnswer(), resultIncorrect.getAnswer());
     }
 }
