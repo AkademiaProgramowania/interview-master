@@ -2,7 +2,8 @@ package pl.pop.interview.master.answer;
 
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

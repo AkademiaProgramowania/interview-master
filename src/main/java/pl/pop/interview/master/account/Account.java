@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.pop.interview.master.practitioner.Practitioner;
 
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
