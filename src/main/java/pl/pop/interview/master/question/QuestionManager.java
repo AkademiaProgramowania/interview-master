@@ -1,18 +1,16 @@
 package pl.pop.interview.master.question;
 
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class QuestionService {
+@RequiredArgsConstructor
+class QuestionManager implements QuestionFacade{
     private final QuestionRepository questionRepository;
-
-    public QuestionService(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
-    }
 
     @PostConstruct
     private void saveBasicQuestions() {
@@ -35,12 +33,13 @@ public class QuestionService {
         questions.add(new Question("Czy Javie można używać do tworzenia aplikacji webowych?", YesNo.YES));
         return questions;
     }
-
+    @Override
     public void addNewQuestion(QuestionDTO questionDTO) {
         Question question = mapToEntity(questionDTO);
         questionRepository.save(question);
     }
 
+    @Override
     public List<QuestionDTO> getAllQuestions() {
         return questionRepository.findAll().stream()
                 .map( question -> mapToDto(question) )

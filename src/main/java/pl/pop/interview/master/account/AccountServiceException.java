@@ -1,7 +1,7 @@
 package pl.pop.interview.master.account;
 
-public class AccountServiceException extends RuntimeException{
-    public AccountServiceException(String message) {
+class AccountServiceException extends RuntimeException {
+    AccountServiceException(String message) {
         super(message);
     }
 }

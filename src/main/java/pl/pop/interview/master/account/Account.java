@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import pl.pop.interview.master.practitioner.Practitioner;
 
-@Entity
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+@Entity
+class Account {
+
 
     @Id
     private String email;

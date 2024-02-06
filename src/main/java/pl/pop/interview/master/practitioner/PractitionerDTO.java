@@ -2,12 +2,10 @@ package pl.pop.interview.master.practitioner;
 
 import lombok.*;
 
-@Data
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
 public class PractitionerDTO {
     private Long id;
 
