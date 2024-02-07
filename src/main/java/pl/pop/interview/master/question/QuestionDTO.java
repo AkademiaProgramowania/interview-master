@@ -18,12 +18,12 @@ import lombok.Setter;
 public class QuestionDTO {
     private Long id; // dodane pole by móc wyświetlić userowi pytanie z id a bez odpowiedzi
     private String content;
-    private YesNo correctAnswer;
+    private String correctAnswer;
 
     public QuestionDTO() {
     }
-    public QuestionDTO(Long id, String content) {
-        this.id = id;
+    public QuestionDTO(String content, String correctAnswer) {
         this.content = content;
+        this.correctAnswer = correctAnswer;
     }
 }
