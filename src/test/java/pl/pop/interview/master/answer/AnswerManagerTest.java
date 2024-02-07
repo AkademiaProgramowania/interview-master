@@ -17,6 +17,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AnswerManagerTest {
+    private static final String YES = "Yes";
+    private static final String NO = "No";
     @Mock
     private AnswerRepository answerRepository;
     @Mock
@@ -40,10 +42,10 @@ class AnswerManagerTest {
 
     @Test
     public void testSaveNewCorrectAnswer() {
-        Question question1 = new Question("Question1Content", "Yes");
+        Question question1 = new Question("Question1Content", YES);
         Answer answerCorrect = new Answer();
         answerCorrect.setQuestionContent("Question1Content");
-        answerCorrect.setAnswer("Yes");
+        answerCorrect.setAnswer(YES);
         answerCorrect.setResult("Correct answer");
         AnswerDTO answerDTOCorrect = new AnswerDTO();
         answerDTOCorrect.setResult("Correct answer");
@@ -51,7 +53,7 @@ class AnswerManagerTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerCorrect);
 
-        AnswerDTO resultCorrect = answerManager.save(1L, "Yes");
+        AnswerDTO resultCorrect = answerManager.save(1L, YES);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
@@ -65,10 +67,10 @@ class AnswerManagerTest {
 
     @Test
     public void testSaveIncorrectAnswer() {
-        Question question1 = new Question("QuestionContent", "Yes");
+        Question question1 = new Question("QuestionContent", YES);
         Answer answerIncorrect = new Answer();
         answerIncorrect.setQuestionContent("QuestionContent");
-        answerIncorrect.setAnswer("No");
+        answerIncorrect.setAnswer(NO);
         answerIncorrect.setResult("Incorrect answer or answer format Yes/No");
         AnswerDTO answerDTOIncorrect = new AnswerDTO();
         answerDTOIncorrect.setResult("Incorrect answer or answer format Yes/No");
@@ -76,7 +78,7 @@ class AnswerManagerTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerIncorrect);
 
-        AnswerDTO resultIncorrect = answerManager.save(1L, "No");
+        AnswerDTO resultIncorrect = answerManager.save(1L, NO);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());

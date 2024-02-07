@@ -16,6 +16,8 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith( MockitoExtension.class )
 public class QuestionManagerTest {
+    private static final String YES = "Yes";
+    private static final String NO = "No";
     @Mock
     private QuestionRepository questionRepository;
     @InjectMocks
@@ -25,7 +27,7 @@ public class QuestionManagerTest {
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setContent("Is it ok?");
-        questionDTO.setCorrectAnswer("Yes");
+        questionDTO.setCorrectAnswer(YES);
 
         questionManager.addNewQuestion( questionDTO );
 
@@ -43,8 +45,8 @@ public class QuestionManagerTest {
     @Test
     public void testGetAllQuestions_SuccessfulReturnedQuestions() {
         List<Question> expectedQuestions = Arrays.asList(
-                new Question( "Is it ok?", "Yes" ),
-                new Question( "Is it bad?", "No" )
+                new Question( "Is it ok?", YES),
+                new Question( "Is it bad?", NO)
         );
 
         // create an imitation of a repository that will return a expectedQuestions list
