@@ -24,7 +24,7 @@ class AnswerFacadeTest {
     @Mock
     private QuestionRepository questionRepository;
     @Mock
-    private QuestionFacade questionService;
+    private QuestionFacade questionFacade;
     @InjectMocks
     private AnswerFacade answerFacade;
 
@@ -35,7 +35,7 @@ class AnswerFacadeTest {
         QuestionDTO questionDTO = new QuestionDTO();
         questionRepository.save(question);
         when(questionRepository.findRandomQuestion()).thenReturn(Optional.of(question));
-        when(questionService.mapToDto(question)).thenReturn(questionDTO);
+        when(questionFacade.mapToDto(question)).thenReturn(questionDTO);
         assertSame(questionDTO, answerFacade.findRandomQuestion());
         assertNotSame(questionDTO2, answerFacade.findRandomQuestion());
     }

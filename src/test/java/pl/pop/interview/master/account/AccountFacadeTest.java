@@ -26,7 +26,7 @@ class AccountFacadeTest {
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
-    private PractitionerFacade practitionerManager;
+    private PractitionerFacade practitionerFacade;
     @InjectMocks
     private AccountFacade accountFacade;
 
@@ -41,7 +41,7 @@ class AccountFacadeTest {
 
         when(accountRepository.existsById(inputDTO.getEmail())).thenReturn(false);
         when(passwordEncoder.encode(inputDTO.getPassword())).thenReturn("hashedPassword");
-        when(practitionerManager.createNewPractitioner()).thenReturn(practitioner);
+        when(practitionerFacade.createNewPractitioner()).thenReturn(practitioner);
         when(accountRepository.save(any(Account.class))).thenReturn(result);
 
         AccountDTO resultDTO = accountFacade.createNewAccount(inputDTO);

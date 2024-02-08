@@ -14,11 +14,11 @@ public class AnswerFacade {
 
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
-    private final QuestionFacade questionService;
+    private final QuestionFacade questionFacade;
 
     public QuestionDTO findRandomQuestion() {
         Question found = questionRepository.findRandomQuestion().orElseThrow(() -> new NotFoundException("Question not found"));
-        return questionService.mapToDto(found);
+        return questionFacade.mapToDto(found);
     }
 
     // opcjonalnie
@@ -27,7 +27,7 @@ public class AnswerFacade {
         List<Question> allQuestions = questionRepository.findAll();
         int index = random.nextInt(allQuestions.size());
         Question question = allQuestions.get(index);
-        return questionService.mapToDto(question);
+        return questionFacade.mapToDto(question);
     }
 
     public AnswerDTO save(Long questionId, String answer) {
