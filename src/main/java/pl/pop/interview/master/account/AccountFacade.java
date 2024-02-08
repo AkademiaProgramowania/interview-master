@@ -14,7 +14,7 @@ public class AccountFacade {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PractitionerFacade practitionerManager;
+    private final PractitionerFacade practitionerFacade;
 
     public AccountDTO createNewAccount(AccountDTO accountDTO) {
         if (accountRepository.existsById(accountDTO.getEmail())) {
@@ -25,7 +25,7 @@ public class AccountFacade {
         account.setEmail(accountDTO.getEmail());
         account.setPassword(hashedPassword);
 
-        Practitioner practitioner = practitionerManager.createNewPractitioner();
+        Practitioner practitioner = practitionerFacade.createNewPractitioner();
         account.setPractitioner(practitioner);
         return AccountDTO.mapToDto(accountRepository.save(account));
     }

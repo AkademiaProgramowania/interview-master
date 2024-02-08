@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.pop.interview.master.practitioner.Practitioner;
-import pl.pop.interview.master.practitioner.PractitionerFacade;
 
 import java.util.Arrays;
 import java.util.List;
