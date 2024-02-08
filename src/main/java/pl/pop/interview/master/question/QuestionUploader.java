@@ -18,7 +18,7 @@ import java.io.IOException;
 public class QuestionUploader {
     private static final String DATABASE_UPDATED_QUESTIONS_ADDED = "Database updated - questions added";
     private final ObjectMapper objectMapper;
-    private final QuestionManager questionManager;
+    private final QuestionFacade questionFacade;
 
     /**
      * Populates question data into the database from a JSON file.
@@ -31,7 +31,7 @@ public class QuestionUploader {
         JsonNode questionNode = rootNode.get("questions");
         for (JsonNode question: questionNode) {
             QuestionDTO questionDTO = objectMapper.treeToValue(question, QuestionDTO.class);
-            questionManager.addNewQuestion(questionDTO);
+            questionFacade.addNewQuestion(questionDTO);
         }
         log.info(DATABASE_UPDATED_QUESTIONS_ADDED);
     }

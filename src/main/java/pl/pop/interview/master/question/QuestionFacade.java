@@ -1,12 +1,35 @@
 package pl.pop.interview.master.question;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
-/**
- * The {@code QuestionFacade} interface defines high-level operations for managing interview questions.
- * This facade provides methods to add new questions and retrieve information about existing questions.
- */
-public interface QuestionFacade {
-    void addNewQuestion(QuestionDTO questionDTO);
-    List<QuestionDTO> getAllQuestions();
-    QuestionDTO mapToDto(Question question);
+
+@Service
+@RequiredArgsConstructor
+public class QuestionFacade {
+    private final QuestionRepository questionRepository;
+
+
+    public void addNewQuestion(QuestionDTO questionDTO) {
+        Question question = mapToEntity(questionDTO);
+        questionRepository.save(question);
+    }
+
+
+    public List<QuestionDTO> getAllQuestions() {
+        return questionRepository.findAll().stream()
+                .map(question -> mapToDto(question))
+                .toList();
+    }
+
+    private Question mapToEntity(QuestionDTO questionDTO) {
+        return new Question(
+                questionDTO.getContent(),
+                questionDTO.getCorrectAnswer());
+    }
+
+    public QuestionDTO mapToDto(Question question) {
+        return new QuestionDTO(question.getId(), question.getContent(), question.getCorrectAnswer());
+    }
 }

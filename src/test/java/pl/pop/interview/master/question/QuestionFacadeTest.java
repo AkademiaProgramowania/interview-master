@@ -15,13 +15,13 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith( MockitoExtension.class )
-public class QuestionManagerTest {
+public class QuestionFacadeTest {
     private static final String YES = "Yes";
     private static final String NO = "No";
     @Mock
     private QuestionRepository questionRepository;
     @InjectMocks
-    private QuestionManager questionManager;
+    private QuestionFacade questionFacade;
 
     @Test
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
@@ -29,7 +29,7 @@ public class QuestionManagerTest {
         questionDTO.setContent("Is it ok?");
         questionDTO.setCorrectAnswer(YES);
 
-        questionManager.addNewQuestion( questionDTO );
+        questionFacade.addNewQuestion( questionDTO );
 
         // capture Question object for test private method buildQuestionFromDTO( QuestionDTO questionDTO )
         ArgumentCaptor<Question> questionCaptor = ArgumentCaptor.forClass( Question.class );
@@ -52,7 +52,7 @@ public class QuestionManagerTest {
         // create an imitation of a repository that will return a expectedQuestions list
         when( questionRepository.findAll() ).thenReturn( expectedQuestions );
 
-        List<QuestionDTO> actualQuestionsDTO = questionManager.getAllQuestions();
+        List<QuestionDTO> actualQuestionsDTO = questionFacade.getAllQuestions();
 
         // we need to cast DTO to Question, cause service returns List<QuestionDTO>
         List<Question> actualQuestions = actualQuestionsDTO.stream()
