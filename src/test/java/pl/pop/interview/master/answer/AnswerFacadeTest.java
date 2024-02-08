@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AnswerManagerTest {
+class AnswerFacadeTest {
     private static final String YES = "Yes";
     private static final String NO = "No";
     @Mock
@@ -26,7 +26,7 @@ class AnswerManagerTest {
     @Mock
     private QuestionFacade questionService;
     @InjectMocks
-    private AnswerManager answerManager;
+    private AnswerFacade answerFacade;
 
     @Test
     public void testFindRandomQuestion() {
@@ -36,8 +36,8 @@ class AnswerManagerTest {
         questionRepository.save(question);
         when(questionRepository.findRandomQuestion()).thenReturn(Optional.of(question));
         when(questionService.mapToDto(question)).thenReturn(questionDTO);
-        assertSame(questionDTO, answerManager.findRandomQuestion());
-        assertNotSame(questionDTO2, answerManager.findRandomQuestion());
+        assertSame(questionDTO, answerFacade.findRandomQuestion());
+        assertNotSame(questionDTO2, answerFacade.findRandomQuestion());
     }
 
     @Test
@@ -53,7 +53,7 @@ class AnswerManagerTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerCorrect);
 
-        AnswerDTO resultCorrect = answerManager.save(1L, YES);
+        AnswerDTO resultCorrect = answerFacade.save(1L, YES);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
@@ -78,7 +78,7 @@ class AnswerManagerTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerIncorrect);
 
-        AnswerDTO resultIncorrect = answerManager.save(1L, NO);
+        AnswerDTO resultIncorrect = answerFacade.save(1L, NO);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
