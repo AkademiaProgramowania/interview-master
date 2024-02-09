@@ -32,12 +32,12 @@ public class AnswerManager implements AnswerFacade {
     }
 
     @Override
-    public AnswerDTO save(Long questionId, String answer) {
+    public AnswerDTO save(Long questionId, boolean isTrue) {
         Question question = questionRepository.findById(questionId).orElseThrow(() -> new NotFoundException("Question not found"));
         // check if the answer is correct, comparing to question
-        boolean isCorrect = Objects.equals(answer, question.getCorrectAnswer().toString());
+        boolean isCorrect = Objects.equals(isTrue, question.isCorrectAnswer());
         // new Answer with question content, submitted answer and result
-        Answer newAnswer = new Answer(questionId, question.getContent(), answer, isCorrect ? "Correct answer" : "Incorrect answer or answer format YES/NO");
+        Answer newAnswer = new Answer(questionId, question.getContent(), isTrue, isCorrect ? "Correct answer" : "Incorrect answer or answer format YES/NO");
         return AnswerDTO.mapToDto(answerRepository.save(newAnswer));
     }
 }

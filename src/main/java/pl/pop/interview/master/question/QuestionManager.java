@@ -1,10 +1,8 @@
 package pl.pop.interview.master.question;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,10 +26,10 @@ class QuestionManager implements QuestionFacade{
     private Question mapToEntity(QuestionDTO questionDTO) {
         return new Question(
                 questionDTO.getContent(),
-                questionDTO.getCorrectAnswer());
+                questionDTO.isCorrectAnswer());
     }
 
     public QuestionDTO mapToDto(Question question) {
-        return new QuestionDTO(question.getId(), question.getContent(), question.getCorrectAnswer());
+        return new QuestionDTO(question.getId(), question.getContent(), question.isCorrectAnswer());
     }
 }

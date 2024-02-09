@@ -21,7 +21,7 @@ class AnswerController {
 
     @PostMapping("/{questionId}")
     ResponseEntity<String> save(@PathVariable Long questionId, @RequestBody AnswerDTO answerDTO) {
-        AnswerDTO newAnswer = answerManager.save(questionId, answerDTO.getAnswer());
+        AnswerDTO newAnswer = answerManager.save(questionId, answerDTO.isCorrect());
         return new ResponseEntity<>(newAnswer.getResult(), HttpStatus.CREATED);
     }
 }
