@@ -18,7 +18,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class AnswerServiceTest {
+class AnswerManagerTest {
+    private static final String YES = "Yes";
+    private static final String NO = "No";
     @Mock
     private AnswerRepository answerRepository;
     @Mock
@@ -28,7 +30,7 @@ class AnswerServiceTest {
     @Mock
     private PractitionerService practitionerService;
     @InjectMocks
-    private AnswerService answerService;
+    private AnswerManager answerManager;
 
     @Test
     public void testFindRandomQuestion() {
@@ -40,9 +42,8 @@ class AnswerServiceTest {
 
         when(questionRepository.findRandomQuestion()).thenReturn(Optional.of(question));
         when(questionService.mapToDto(question)).thenReturn(questionDTO);
-
-        assertSame(questionDTO, answerService.findRandomQuestion());
-        assertNotSame(questionDTO2, answerService.findRandomQuestion());
+        assertSame(questionDTO, answerManager.findRandomQuestion());
+        assertNotSame(questionDTO2, answerManager.findRandomQuestion());
     }
 
     @Test

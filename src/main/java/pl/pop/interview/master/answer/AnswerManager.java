@@ -1,9 +1,6 @@
 package pl.pop.interview.master.answer;
 
 import org.springframework.stereotype.Service;
-import pl.pop.interview.master.practitioner.Practitioner;
-import pl.pop.interview.master.practitioner.PractitionerService;
-import pl.pop.interview.master.practitioner.PractitionerServiceException;
 import pl.pop.interview.master.question.*;
 
 import java.util.List;
@@ -14,33 +11,20 @@ import java.util.Random;
  * Service class for managing Answer object
  */
 @Service
-public class AnswerService {
+@RequiredArgsConstructor
+public class AnswerManager implements AnswerFacade {
 
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
-    private final QuestionService questionService;
-    private final PractitionerService practitionerService;
-
-    public AnswerService( AnswerRepository answerRepository,
-                          QuestionRepository questionRepository,
-                          QuestionService questionService,
-                          PractitionerService practitionerService ) {
-
-        this.answerRepository = answerRepository;
-        this.questionRepository = questionRepository;
-        this.questionService = questionService;
-        this.practitionerService = practitionerService;
-    }
+    private final QuestionFacade questionService;
 
     public QuestionDTO findRandomQuestion() {
-        Question found = questionRepository
-                .findRandomQuestion()
-                .orElseThrow(()-> new NotFoundException("Question not found"));
-
+        Question found = questionRepository.findRandomQuestion().orElseThrow(() -> new NotFoundException("Question not found"));
         return questionService.mapToDto(found);
     }
 
     // opcjonalnie
+    @Override
     public QuestionDTO generateRandomQuestion() {
         Random random = new Random();
         List<Question> allQuestions = questionRepository.findAll();

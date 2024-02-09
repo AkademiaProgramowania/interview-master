@@ -1,25 +1,22 @@
 package pl.pop.interview.master.account;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.pop.interview.master.practitioner.Practitioner;
-import pl.pop.interview.master.practitioner.PractitionerService;
+import pl.pop.interview.master.practitioner.PractitionerFacade;
 
 import java.util.List;
 
 @Service
-public class AccountService {
+@RequiredArgsConstructor
+class AccountManager implements AccountFacade {
 
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PractitionerService practitionerService;
+    private final PractitionerFacade practitionerManager;
 
-    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, PractitionerService practitionerService) {
-        this.accountRepository = accountRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.practitionerService = practitionerService;
-    }
-
+    @Override
     public AccountDTO createNewAccount(AccountDTO accountDTO) {
         if (accountRepository.existsById(accountDTO.getEmail())) {
             throw new AccountServiceException("An account with this email address already exists");
@@ -29,11 +26,12 @@ public class AccountService {
         account.setEmail(accountDTO.getEmail());
         account.setPassword(hashedPassword);
 
-        Practitioner practitioner = practitionerService.createNewPractitioner();
+        Practitioner practitioner = practitionerManager.createNewPractitioner();
         account.setPractitioner(practitioner);
         return AccountDTO.mapToDto(accountRepository.save(account));
     }
 
+    @Override
     public List<AccountDTO> getAllAccounts() {
         return accountRepository.findAll()
                 .stream()

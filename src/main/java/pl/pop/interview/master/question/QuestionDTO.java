@@ -1,5 +1,10 @@
 package pl.pop.interview.master.question;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * DTO objects are used as data transport structure. 
  * Transport takes place between the http request/response body (as JSON) and the business logic layer (Services).
@@ -7,33 +12,18 @@ package pl.pop.interview.master.question;
  * 
  * Getters and no-args constructor are required by the Jackson library for JSON serialization/deserialization.
  */
+@AllArgsConstructor
+@Getter
+@Setter
 public class QuestionDTO {
     private Long id; // dodane pole by móc wyświetlić userowi pytanie z id a bez odpowiedzi
     private String content;
-    private YesNo correctAnswer;
+    private String correctAnswer;
 
     public QuestionDTO() {
     }
-    public QuestionDTO(Long id, String content) {
-        this.id = id;
+    public QuestionDTO(String content, String correctAnswer) {
         this.content = content;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-    public YesNo getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-    public void setCorrectAnswer(YesNo correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
 }

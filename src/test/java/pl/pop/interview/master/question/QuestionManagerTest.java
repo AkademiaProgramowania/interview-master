@@ -15,19 +15,21 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith( MockitoExtension.class )
-public class QuestionServiceTest {
+public class QuestionManagerTest {
+    private static final String YES = "Yes";
+    private static final String NO = "No";
     @Mock
     private QuestionRepository questionRepository;
     @InjectMocks
-    private QuestionService questionService;
+    private QuestionManager questionManager;
 
     @Test
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setContent("Is it ok?");
-        questionDTO.setCorrectAnswer(YesNo.YES );
+        questionDTO.setCorrectAnswer(YES);
 
-        questionService.addNewQuestion( questionDTO );
+        questionManager.addNewQuestion( questionDTO );
 
         // capture Question object for test private method buildQuestionFromDTO( QuestionDTO questionDTO )
         ArgumentCaptor<Question> questionCaptor = ArgumentCaptor.forClass( Question.class );
@@ -37,27 +39,32 @@ public class QuestionServiceTest {
         Question capturedQuestion = questionCaptor.getValue();
 
         assertEquals( questionDTO.getContent(), capturedQuestion.getContent() );
+        assertEquals( questionDTO.getCorrectAnswer(), capturedQuestion.getCorrectAnswer() );
     }
 
     @Test
     public void testGetAllQuestions_SuccessfulReturnedQuestions() {
         List<Question> expectedQuestions = Arrays.asList(
-                new Question( "Is it ok?", YesNo.YES ),
-                new Question( "Is it bad?", YesNo.NO )
+                new Question( "Is it ok?", YES),
+                new Question( "Is it bad?", NO)
         );
 
         // create an imitation of a repository that will return a expectedQuestions list
         when( questionRepository.findAll() ).thenReturn( expectedQuestions );
 
-        List<QuestionDTO> actualQuestionsDTO = questionService.getAllQuestions();
+        List<QuestionDTO> actualQuestionsDTO = questionManager.getAllQuestions();
 
         // we need to cast DTO to Question, cause service returns List<QuestionDTO>
         List<Question> actualQuestions = actualQuestionsDTO.stream()
-                        .map(questionDTO -> new Question(questionDTO.getContent(), questionDTO.getCorrectAnswer()))
-                        .toList();
+                .map(questionDTO -> new Question(questionDTO.getContent(), questionDTO.getCorrectAnswer()))
+                .toList();
 
         assertEquals( expectedQuestions.size(), actualQuestions.size() );
-        assertEquals( expectedQuestions.get(0).getContent(), actualQuestions.get(0).getContent());
-        assertNull(actualQuestions.get(0).getCorrectAnswer());
+        assertAll(
+                () -> assertEquals(expectedQuestions.get(0).getContent(), actualQuestions.get(0).getContent()),
+                () -> assertEquals(expectedQuestions.get(0).getCorrectAnswer(), actualQuestions.get(0).getCorrectAnswer()),
+                () -> assertEquals(expectedQuestions.get(1).getContent(), actualQuestions.get(1).getContent()),
+                () -> assertEquals(expectedQuestions.get(1).getCorrectAnswer(), actualQuestions.get(1).getCorrectAnswer())
+        );
     }
 }

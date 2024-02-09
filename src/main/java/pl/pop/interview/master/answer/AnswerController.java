@@ -9,13 +9,13 @@ import pl.pop.interview.master.question.QuestionDTO;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1/answers")
-public class AnswerController {
-    private final AnswerService answerService;
+class AnswerController {
+    private final AnswerManager answerManager;
 
     // random question for user
     @GetMapping("/question")
-    public ResponseEntity<QuestionDTO> getRandomQuestion() {
-        QuestionDTO questionDTO = answerService.findRandomQuestion();
+    ResponseEntity<QuestionDTO> getRandomQuestion() {
+        QuestionDTO questionDTO = answerManager.findRandomQuestion();
         return new ResponseEntity<>(questionDTO, HttpStatus.OK);
     }
 
