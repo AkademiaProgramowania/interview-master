@@ -6,14 +6,16 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.pop.interview.master.practitioner.Practitioner;
+import pl.pop.interview.master.practitioner.PractitionerService;
+import pl.pop.interview.master.practitioner.PractitionerServiceException;
 import pl.pop.interview.master.question.*;
 
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AnswerServiceTest {
@@ -23,6 +25,8 @@ class AnswerServiceTest {
     private QuestionRepository questionRepository;
     @Mock
     private QuestionService questionService;
+    @Mock
+    private PractitionerService practitionerService;
     @InjectMocks
     private AnswerService answerService;
 
@@ -31,60 +35,103 @@ class AnswerServiceTest {
         Question question = new Question();
         QuestionDTO questionDTO2 = new QuestionDTO();
         QuestionDTO questionDTO = new QuestionDTO();
+
         questionRepository.save(question);
+
         when(questionRepository.findRandomQuestion()).thenReturn(Optional.of(question));
         when(questionService.mapToDto(question)).thenReturn(questionDTO);
+
         assertSame(questionDTO, answerService.findRandomQuestion());
         assertNotSame(questionDTO2, answerService.findRandomQuestion());
     }
 
     @Test
     public void testSaveNewCorrectAnswer() {
-        Question question1 = new Question("Question1Content", YesNo.YES);
-        Answer answerCorrect = new Answer();
-        answerCorrect.setQuestionContent("Question1Content");
-        answerCorrect.setAnswer("YES");
-        answerCorrect.setResult("Correct answer");
-        AnswerDTO answerDTOCorrect = new AnswerDTO();
-        answerDTOCorrect.setResult("Correct answer");
+        Practitioner mockPractitioner = mock(Practitioner.class);
+        when(mockPractitioner.getId()).thenReturn( 1L );
 
-        when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
-        when(answerRepository.save(any())).thenReturn(answerCorrect);
+        Question question = new Question("content", YesNo.YES);
+        question.setId( 1L );
 
-        AnswerDTO resultCorrect = answerService.save(1L, "YES");
+        Question anotherQuestion = new Question();
+        anotherQuestion.setId( 2L );
 
-        ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
-        verify(answerRepository).save(answerCaptor.capture());
-        Answer savedAnswer = answerCaptor.getValue();
+        List<Answer> practitionerAnswers = new ArrayList<>(
+                List.of( new Answer( 1L,
+                        null,
+                        null,
+                        null,
+                        mockPractitioner,
+                        anotherQuestion ) )
+        );
 
-        assertEquals(question1.getContent(), savedAnswer.getQuestionContent());
-        assertEquals(question1.getCorrectAnswer().toString(), savedAnswer.getAnswer());
-        assertEquals(question1.getContent(), resultCorrect.getQuestion());
-        assertEquals(question1.getCorrectAnswer().toString(), resultCorrect.getAnswer());
+        AnswerDTO answerDTO = new AnswerDTO(
+                1,
+                "content",
+                "YES",
+                null,
+                mockPractitioner.getId(),
+                question.getId()
+        );
+
+        Answer expectedAnswer = new Answer(
+                1L,
+                "content",
+                "YES",
+                "Correct answer",
+                mockPractitioner,
+                question
+                );
+
+        when(questionRepository.findById( question.getId() )).thenReturn( Optional.of( question ) );
+        when(practitionerService.getPractitioner( mockPractitioner.getId() )).thenReturn( mockPractitioner );
+        when(mockPractitioner.getAnswers()).thenReturn( practitionerAnswers );
+        when(answerRepository.save(any())).thenReturn( expectedAnswer );
+
+       answerService.addNewAnswer( answerDTO );
+
+        ArgumentCaptor<Answer> captor = ArgumentCaptor.forClass( Answer.class );
+        verify(answerRepository).save( captor.capture() );
+
+        AnswerDTO capturedAnswerDTO = AnswerDTO.mapToDto( captor.getValue() );
+
+        assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getQuestionContent(), capturedAnswerDTO.getQuestionContent() );
+        assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getAnswer(), capturedAnswerDTO.getAnswer() );
+        assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getResult(), capturedAnswerDTO.getResult() );
+        assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getPractitionerId(), capturedAnswerDTO.getPractitionerId() );
+        assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getQuestionId(), capturedAnswerDTO.getQuestionId() );
     }
 
     @Test
-    public void testSaveIncorrectAnswer() {
-        Question question1 = new Question("QuestionContent", YesNo.YES);
-        Answer answerIncorrect = new Answer();
-        answerIncorrect.setQuestionContent("QuestionContent");
-        answerIncorrect.setAnswer("NO");
-        answerIncorrect.setResult("Incorrect answer or answer format YES/NO");
-        AnswerDTO answerDTOIncorrect = new AnswerDTO();
-        answerDTOIncorrect.setResult("Incorrect answer or answer format YES/NO");
+    public void testAddNewAnswer_QuestionIsAnswered() {
+        Practitioner mockPractitioner = mock(Practitioner.class);
+        when(mockPractitioner.getId()).thenReturn( 1L );
 
-        when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
-        when(answerRepository.save(any())).thenReturn(answerIncorrect);
+        Question mockQuestion = mock(Question.class);
+        when(mockQuestion.getId()).thenReturn( 1L );
 
-        AnswerDTO resultIncorrect = answerService.save(1L, "NO");
+        List<Answer> practitionerAnswers = new ArrayList<>(
+                List.of(new Answer(
+                        1L,
+                        null,
+                        null,
+                        null,
+                        mockPractitioner,
+                        mockQuestion ))
+        );
 
-        ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
-        verify(answerRepository).save(answerCaptor.capture());
-        Answer savedAnswer = answerCaptor.getValue();
+        AnswerDTO answerDTO = new AnswerDTO(
+                1,
+                "content",
+                "YES",
+                null,
+                mockPractitioner.getId(),
+                mockQuestion.getId()
+        );
 
-        assertEquals(question1.getContent(), savedAnswer.getQuestionContent());
-        assertNotEquals(question1.getCorrectAnswer().toString(), savedAnswer.getAnswer());
-        assertEquals(question1.getContent(), resultIncorrect.getQuestion());
-        assertNotEquals(question1.getCorrectAnswer().toString(), resultIncorrect.getAnswer());
+        when(practitionerService.getPractitioner( mockPractitioner.getId() )).thenReturn( mockPractitioner );
+        when(mockPractitioner.getAnswers()).thenReturn( practitionerAnswers );
+
+        assertThrows( PractitionerServiceException.class,() -> answerService.addNewAnswer( answerDTO ) );
     }
 }

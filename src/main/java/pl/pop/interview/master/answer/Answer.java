@@ -27,8 +27,7 @@ public class Answer {
     private Question question;
 
     // constructor without Practitioner and Question fields
-    public Answer( Long id, String questionContent, String answer, String result ) {
-        this.id = id;
+    public Answer( String questionContent, String answer, String result ) {
         this.questionContent = questionContent;
         this.answer = answer;
         this.result = result;

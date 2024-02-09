@@ -19,9 +19,9 @@ public class AnswerController {
         return new ResponseEntity<>(questionDTO, HttpStatus.OK);
     }
 
-    @PostMapping("/{questionId}")
-    public ResponseEntity<String> save(@PathVariable Long questionId, @RequestBody AnswerDTO answerDTO) {
-        AnswerDTO newAnswer = answerService.save(questionId, answerDTO.getAnswer());
+    @PostMapping()
+    public ResponseEntity<String> addNewAnswer( @RequestBody AnswerDTO answerDTO) {
+        AnswerDTO newAnswer = answerService.addNewAnswer(answerDTO);
         return new ResponseEntity<>(newAnswer.getResult(), HttpStatus.CREATED);
     }
 }
