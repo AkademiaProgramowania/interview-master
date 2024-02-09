@@ -43,7 +43,7 @@ class AnswerManagerTest {
         Question question1 = new Question("Question1Content", true);
         Answer answerCorrect = new Answer();
         answerCorrect.setQuestionContent("Question1Content");
-        answerCorrect.setCorrect(true);
+        answerCorrect.setAnswer(true);
         answerCorrect.setResult("Correct answer");
         AnswerDTO answerDTOCorrect = new AnswerDTO();
         answerDTOCorrect.setResult("Correct answer");
@@ -57,9 +57,9 @@ class AnswerManagerTest {
         Answer savedAnswer = answerCaptor.getValue();
 
         assertEquals(question1.getContent(), savedAnswer.getQuestionContent());
-        assertEquals(question1.isCorrectAnswer(), savedAnswer.isCorrect());
+        assertEquals(question1.isCorrectAnswer(), savedAnswer.isAnswer());
         assertEquals(question1.getContent(), resultCorrect.getQuestion());
-        assertEquals(question1.isCorrectAnswer(), resultCorrect.isCorrect());
+        assertEquals(question1.isCorrectAnswer(), resultCorrect.isAnswer());
     }
 
     @Test
@@ -67,7 +67,7 @@ class AnswerManagerTest {
         Question question1 = new Question("QuestionContent", true);
         Answer answerIncorrect = new Answer();
         answerIncorrect.setQuestionContent("QuestionContent");
-        answerIncorrect.setCorrect(false);
+        answerIncorrect.setAnswer(false);
         answerIncorrect.setResult("Incorrect answer or answer format Yes/No");
         AnswerDTO answerDTOIncorrect = new AnswerDTO();
         answerDTOIncorrect.setResult("Incorrect answer or answer format Yes/No");
@@ -82,8 +82,8 @@ class AnswerManagerTest {
         Answer savedAnswer = answerCaptor.getValue();
 
         assertEquals(question1.getContent(), savedAnswer.getQuestionContent());
-        assertNotEquals(question1.isCorrectAnswer(), savedAnswer.isCorrect());
+        assertNotEquals(question1.isCorrectAnswer(), savedAnswer.isAnswer());
         assertEquals(question1.getContent(), resultIncorrect.getQuestion());
-        assertNotEquals(question1.isCorrectAnswer(), resultIncorrect.isCorrect());
+        assertNotEquals(question1.isCorrectAnswer(), resultIncorrect.isAnswer());
     }
 }
