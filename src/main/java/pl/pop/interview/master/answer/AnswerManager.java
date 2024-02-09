@@ -1,11 +1,11 @@
 package pl.pop.interview.master.answer;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.pop.interview.master.practitioner.PractitionerFacade;
 import pl.pop.interview.master.question.*;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * Service class for managing Answer object
@@ -15,56 +15,37 @@ import java.util.Random;
 public class AnswerManager implements AnswerFacade {
 
     private final AnswerRepository answerRepository;
-    private final QuestionRepository questionRepository;
-    private final QuestionFacade questionService;
-
-    public QuestionDTO findRandomQuestion() {
-        Question found = questionRepository.findRandomQuestion().orElseThrow(() -> new NotFoundException("Question not found"));
-        return questionService.mapToDto(found);
-    }
-
-    // opcjonalnie
-    @Override
-    public QuestionDTO generateRandomQuestion() {
-        Random random = new Random();
-        List<Question> allQuestions = questionRepository.findAll();
-        int index = random.nextInt(allQuestions.size());
-        Question question = allQuestions.get(index);
-        return questionService.mapToDto(question);
-    }
+    private final QuestionFacade questionFacade;
+    private final PractitionerFacade practitionerFacade;
 
     public AnswerDTO addNewAnswer( AnswerDTO answerDTO) {
         // is the question already answered
-        if (isAnsweredByPractitioner( answerDTO.getPractitionerId(), answerDTO.getQuestionId() )) {
-            throw new PractitionerServiceException(
+        if (isQuestionAnswered( answerDTO.getPractitionerId(), answerDTO.getQuestionId() )) {
+            throw new RuntimeException(
                     "The Practitioner " + answerDTO.getPractitionerId() + " has already answered this question."
             );
         }
 
-        Question question = questionRepository
-                .findById( answerDTO.getQuestionId() )
-                .orElseThrow(() -> new NotFoundException("Question not found"));
+        Question question = questionFacade.getQuestion( answerDTO.getQuestionId() );
 
         // check if the answer is correct, comparing to question
-        boolean isCorrect = Objects.equals(answerDTO.getAnswer(), question.getCorrectAnswer().toString());
+        boolean isCorrect = Objects.equals(
+                Boolean.parseBoolean( answerDTO.getAnswer() ),
+                question.isYesNo());
 
         // new Answer with question content, submitted answer and result
         Answer newAnswer = new Answer(
                 question.getContent(),
                 answerDTO.getAnswer(),
-                isCorrect ? "Correct answer" : "Incorrect answer or answer format YES/NO");
+                isCorrect ? "Correct" : "Incorrect");
 
-        newAnswer.setPractitioner(practitionerService.getPractitioner( answerDTO.getPractitionerId() ));
+        newAnswer.setPractitioner(practitionerFacade.getPractitioner( answerDTO.getPractitionerId() ));
         newAnswer.setQuestion( question );
 
         return AnswerDTO.mapToDto(answerRepository.save(newAnswer));
     }
 
-    // additional method for check is answer is answered by practitioner
-    private boolean isAnsweredByPractitioner(Long practitionerId, Long questionId) {
-        Practitioner practitioner = practitionerService.getPractitioner( practitionerId );
-        List<Answer> answers = practitioner.getAnswers();
-
-        return answers.stream().anyMatch( answer -> answer.getQuestion().getId().equals( questionId ) );
+    public boolean isQuestionAnswered(Long practitionerId, Long questionId) {
+        return answerRepository.isQuestionAnswered(practitionerId, questionId);
     }
 }

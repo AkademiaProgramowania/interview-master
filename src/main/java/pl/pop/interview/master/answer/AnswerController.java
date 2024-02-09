@@ -13,15 +13,5 @@ class AnswerController {
     private final AnswerManager answerManager;
 
     // random question for user
-    @GetMapping("/question")
-    ResponseEntity<QuestionDTO> getRandomQuestion() {
-        QuestionDTO questionDTO = answerManager.findRandomQuestion();
-        return new ResponseEntity<>(questionDTO, HttpStatus.OK);
-    }
 
-    @PostMapping()
-    public ResponseEntity<String> addNewAnswer( @RequestBody AnswerDTO answerDTO) {
-        AnswerDTO newAnswer = answerService.addNewAnswer(answerDTO);
-        return new ResponseEntity<>(newAnswer.getResult(), HttpStatus.CREATED);
-    }
 }

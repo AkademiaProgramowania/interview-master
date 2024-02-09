@@ -1,14 +1,13 @@
 package pl.pop.interview.master.answer;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.pop.interview.master.practitioner.Practitioner;
-import pl.pop.interview.master.practitioner.PractitionerService;
-import pl.pop.interview.master.practitioner.PractitionerServiceException;
+import pl.pop.interview.master.practitioner.*;
 import pl.pop.interview.master.question.*;
 
 import java.util.*;
@@ -26,24 +25,24 @@ class AnswerManagerTest {
     @Mock
     private QuestionRepository questionRepository;
     @Mock
-    private QuestionService questionService;
+    private QuestionFacade questionFacade;
     @Mock
-    private PractitionerService practitionerService;
+    private PractitionerFacade practitionerFacade;
     @InjectMocks
     private AnswerManager answerManager;
 
     @Test
     public void testFindRandomQuestion() {
-        Question question = new Question();
-        QuestionDTO questionDTO2 = new QuestionDTO();
-        QuestionDTO questionDTO = new QuestionDTO();
+        Question question = new Question("content", true);
+        QuestionDTO questionDTO2 = new QuestionDTO("no content", false);
+        QuestionDTO questionDTO = new QuestionDTO("content", true);
 
         questionRepository.save(question);
 
         when(questionRepository.findRandomQuestion()).thenReturn(Optional.of(question));
-        when(questionService.mapToDto(question)).thenReturn(questionDTO);
-        assertSame(questionDTO, answerManager.findRandomQuestion());
-        assertNotSame(questionDTO2, answerManager.findRandomQuestion());
+        when( questionFacade.mapToDto(question)).thenReturn(questionDTO);
+        assertSame(questionDTO, questionFacade.findRandomQuestion()); // tu null
+        assertNotSame(questionDTO2, questionFacade.findRandomQuestion());
     }
 
     @Test
@@ -51,9 +50,10 @@ class AnswerManagerTest {
         Practitioner mockPractitioner = mock(Practitioner.class);
         when(mockPractitioner.getId()).thenReturn( 1L );
 
-        Question question = new Question("content", YesNo.YES);
+        Question question = new Question("content", true);
         question.setId( 1L );
 
+        // just for place in the practitioner answer list for  comparison with question
         Question anotherQuestion = new Question();
         anotherQuestion.setId( 2L );
 
@@ -69,7 +69,7 @@ class AnswerManagerTest {
         AnswerDTO answerDTO = new AnswerDTO(
                 1,
                 "content",
-                "YES",
+                "true",
                 null,
                 mockPractitioner.getId(),
                 question.getId()
@@ -78,18 +78,17 @@ class AnswerManagerTest {
         Answer expectedAnswer = new Answer(
                 1L,
                 "content",
-                "YES",
-                "Correct answer",
+                "true",
+                "Correct",
                 mockPractitioner,
                 question
                 );
 
-        when(questionRepository.findById( question.getId() )).thenReturn( Optional.of( question ) );
-        when(practitionerService.getPractitioner( mockPractitioner.getId() )).thenReturn( mockPractitioner );
-        when(mockPractitioner.getAnswers()).thenReturn( practitionerAnswers );
+        when(questionFacade.getQuestion( question.getId() )).thenReturn( question );
+        when( practitionerFacade.getPractitioner( mockPractitioner.getId() )).thenReturn( mockPractitioner );
         when(answerRepository.save(any())).thenReturn( expectedAnswer );
 
-       answerService.addNewAnswer( answerDTO );
+        answerManager.addNewAnswer( answerDTO );
 
         ArgumentCaptor<Answer> captor = ArgumentCaptor.forClass( Answer.class );
         verify(answerRepository).save( captor.capture() );
@@ -130,9 +129,6 @@ class AnswerManagerTest {
                 mockQuestion.getId()
         );
 
-        when(practitionerService.getPractitioner( mockPractitioner.getId() )).thenReturn( mockPractitioner );
-        when(mockPractitioner.getAnswers()).thenReturn( practitionerAnswers );
-
-        assertThrows( PractitionerServiceException.class,() -> answerService.addNewAnswer( answerDTO ) );
+        assertThrows( RuntimeException.class,() -> answerManager.addNewAnswer( answerDTO ) );
     }
 }

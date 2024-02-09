@@ -9,4 +9,7 @@ public interface QuestionFacade {
     void addNewQuestion(QuestionDTO questionDTO);
     List<QuestionDTO> getAllQuestions();
     QuestionDTO mapToDto(Question question);
+    QuestionDTO findRandomQuestion();
+    QuestionDTO generateRandomQuestion();
+    Question getQuestion(Long questionId);
 }

@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith( MockitoExtension.class )
-public class QuestionManagerTest {
+class QuestionManagerTest {
     private static final String YES = "Yes";
     private static final String NO = "No";
     @Mock
@@ -27,7 +27,7 @@ public class QuestionManagerTest {
     public void testAddNewQuestion_SuccessfulAddedQuestion() {
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setContent("Is it ok?");
-        questionDTO.setCorrectAnswer(YES);
+        questionDTO.setYesNo(true);
 
         questionManager.addNewQuestion( questionDTO );
 
@@ -39,14 +39,14 @@ public class QuestionManagerTest {
         Question capturedQuestion = questionCaptor.getValue();
 
         assertEquals( questionDTO.getContent(), capturedQuestion.getContent() );
-        assertEquals( questionDTO.getCorrectAnswer(), capturedQuestion.getCorrectAnswer() );
+        assertEquals( questionDTO.isYesNo(), capturedQuestion.isYesNo() );
     }
 
     @Test
     public void testGetAllQuestions_SuccessfulReturnedQuestions() {
         List<Question> expectedQuestions = Arrays.asList(
-                new Question( "Is it ok?", YES),
-                new Question( "Is it bad?", NO)
+                new Question( "Is it ok?", true),
+                new Question( "Is it bad?", false)
         );
 
         // create an imitation of a repository that will return a expectedQuestions list
@@ -56,15 +56,15 @@ public class QuestionManagerTest {
 
         // we need to cast DTO to Question, cause service returns List<QuestionDTO>
         List<Question> actualQuestions = actualQuestionsDTO.stream()
-                .map(questionDTO -> new Question(questionDTO.getContent(), questionDTO.getCorrectAnswer()))
+                .map(questionDTO -> new Question(questionDTO.getContent(), questionDTO.isYesNo()))
                 .toList();
 
         assertEquals( expectedQuestions.size(), actualQuestions.size() );
         assertAll(
                 () -> assertEquals(expectedQuestions.get(0).getContent(), actualQuestions.get(0).getContent()),
-                () -> assertEquals(expectedQuestions.get(0).getCorrectAnswer(), actualQuestions.get(0).getCorrectAnswer()),
+                () -> assertEquals(expectedQuestions.get(0).isYesNo(), actualQuestions.get(0).isYesNo()),
                 () -> assertEquals(expectedQuestions.get(1).getContent(), actualQuestions.get(1).getContent()),
-                () -> assertEquals(expectedQuestions.get(1).getCorrectAnswer(), actualQuestions.get(1).getCorrectAnswer())
+                () -> assertEquals(expectedQuestions.get(1).isYesNo(), actualQuestions.get(1).isYesNo())
         );
     }
 }

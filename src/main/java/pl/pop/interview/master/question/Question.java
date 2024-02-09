@@ -11,8 +11,8 @@ import java.util.Objects;
  */
 
 @Entity
-@Getter
 @Setter
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,14 +21,13 @@ public class Question {
     @GeneratedValue
     private Long id;
     private String content;
-    @Enumerated( EnumType.STRING )
-    private YesNo correctAnswer;
+    private boolean yesNo;
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
     private List<Answer> answer;
 
-    public Question( String content, YesNo correctAnswer ) {
+    public Question( String content, boolean yesNo ) {
         this.content = content;
-        this.correctAnswer = correctAnswer;
+        this.yesNo = yesNo;
     }
 
     @Override
@@ -38,11 +37,11 @@ public class Question {
 
         Question question = ( Question ) obj;
 
-        return Objects.equals( content, question.content ) && correctAnswer == question.getCorrectAnswer();
+        return Objects.equals( content, question.content ) && yesNo == question.isYesNo();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash( content, correctAnswer );
+        return Objects.hash( content, yesNo );
     }
 }
