@@ -26,10 +26,10 @@ public class QuestionFacade {
     private Question mapToEntity(QuestionDTO questionDTO) {
         return new Question(
                 questionDTO.getContent(),
-                questionDTO.getCorrectAnswer());
+                questionDTO.isCorrectAnswer());
     }
 
     public QuestionDTO mapToDto(Question question) {
-        return new QuestionDTO(question.getId(), question.getContent(), question.getCorrectAnswer());
+        return new QuestionDTO(question.getId(), question.getContent(), question.isCorrectAnswer());
     }
 }
