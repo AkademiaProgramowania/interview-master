@@ -1,10 +1,13 @@
 package pl.pop.interview.master.answer;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pop.interview.master.question.QuestionDTO;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -12,6 +15,8 @@ import pl.pop.interview.master.question.QuestionDTO;
 class AnswerController {
     private final AnswerManager answerManager;
 
-    // random question for user
-
+    @GetMapping
+    public List<Answer> getAllAnswers() {
+        return answerManager.getAllAnswers();
+    }
 }

@@ -27,8 +27,6 @@ class PractitionerManager implements PractitionerFacade {
                 .toList();
     }
 
-
-
     public Practitioner getPractitioner(Long practitionerId) {
 
         return practitionerRepository

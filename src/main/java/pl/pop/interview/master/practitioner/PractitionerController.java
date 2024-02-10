@@ -18,5 +18,4 @@ class PractitionerController {
     List<PractitionerDTO> listPractitioners() {
         return practitionerManager.listPractitioners();
     }
-
 }

@@ -10,8 +10,6 @@ import lombok.*;
 public class AnswerDTO {
     private int id;
     private String questionContent;
-//    private String answer;
-//    private String question;
     private boolean answer;
     private String result;
     private Long practitionerId;
@@ -19,10 +17,8 @@ public class AnswerDTO {
 
     public static AnswerDTO mapToDto(Answer answer) {
         return AnswerDTO.builder()
-                .question(answer.getQuestionContent())
-                .answer(answer.isAnswer())
                 .questionContent(answer.getQuestionContent())
-                .answer(answer.getAnswer())
+                .answer(answer.isAnswer())
                 .result(answer.getResult())
                 .practitionerId( answer.getPractitioner().getId() )
                 .questionId( answer.getQuestion().getId() )

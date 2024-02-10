@@ -1,8 +1,9 @@
 package pl.pop.interview.master.answer;
 
-import pl.pop.interview.master.question.QuestionDTO;
+import java.util.List;
 
 public interface AnswerFacade {
     AnswerDTO addNewAnswer(AnswerDTO answerDTO);
     boolean isQuestionAnswered(Long practitionerId, Long questionId);
+    List<Answer> getAllAnswers();
 }

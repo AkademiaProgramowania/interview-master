@@ -1,7 +1,6 @@
 package pl.pop.interview.master.question;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.el.stream.Optional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +32,6 @@ class QuestionManager implements QuestionFacade{
 
     public QuestionDTO mapToDto(Question question) {
         return new QuestionDTO(question.getId(), question.getContent(), question.isCorrectAnswer());
-        return new QuestionDTO(question.getId(), question.getContent(), question.isYesNo());
     }
 
     public QuestionDTO findRandomQuestion() {
@@ -43,11 +41,12 @@ class QuestionManager implements QuestionFacade{
 
     @Override
     public QuestionDTO generateRandomQuestion() {
-        Random random = new Random();
-        List<Question> allQuestions = questionRepository.findAll();
-        int index = random.nextInt(allQuestions.size());
-        Question question = allQuestions.get(index);
-        return mapToDto(question);
+
+        return mapToDto(
+                questionRepository
+                        .findRandomQuestion()
+                        .orElseThrow(() -> new NotFoundException( "Question not found." ))
+        );
     }
 
     public Question getQuestion(Long questionId) {

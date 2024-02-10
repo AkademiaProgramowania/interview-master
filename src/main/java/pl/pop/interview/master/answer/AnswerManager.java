@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.pop.interview.master.practitioner.PractitionerFacade;
 import pl.pop.interview.master.question.*;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,13 +31,13 @@ public class AnswerManager implements AnswerFacade {
 
         // check if the answer is correct, comparing to question
         boolean isCorrect = Objects.equals(
-                Boolean.parseBoolean( answerDTO.getAnswer() ),
-                question.isYesNo());
+                answerDTO.isAnswer(),
+                question.isCorrectAnswer());
 
         // new Answer with question content, submitted answer and result
         Answer newAnswer = new Answer(
                 question.getContent(),
-                answerDTO.getAnswer(),
+                answerDTO.isAnswer(),
                 isCorrect ? "Correct" : "Incorrect");
 
         newAnswer.setPractitioner(practitionerFacade.getPractitioner( answerDTO.getPractitionerId() ));
@@ -47,5 +48,9 @@ public class AnswerManager implements AnswerFacade {
 
     public boolean isQuestionAnswered(Long practitionerId, Long questionId) {
         return answerRepository.isQuestionAnswered(practitionerId, questionId);
+    }
+
+    public List<Answer> getAllAnswers() {
+        return answerRepository.findAll();
     }
 }

@@ -22,7 +22,6 @@ public class Question {
     private Long id;
     private String content;
     private boolean correctAnswer;
-    private boolean yesNo;
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
     private List<Answer> answer;
 

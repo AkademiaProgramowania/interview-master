@@ -20,27 +20,13 @@ class AnswerManagerTest {
     @Mock
     private AnswerRepository answerRepository;
     @Mock
-    private QuestionRepository questionRepository;
-    @Mock
     private QuestionFacade questionFacade;
     @Mock
     private PractitionerFacade practitionerFacade;
     @InjectMocks
     private AnswerManager answerManager;
 
-    @Test
-    public void testFindRandomQuestion() {
-        Question question = new Question("content", true);
-        QuestionDTO questionDTO2 = new QuestionDTO("no content", false);
-        QuestionDTO questionDTO = new QuestionDTO("content", true);
 
-        questionRepository.save(question);
-
-        when(questionRepository.findRandomQuestion()).thenReturn(Optional.of(question));
-        when( questionFacade.mapToDto(question)).thenReturn(questionDTO);
-        assertSame(questionDTO, questionFacade.findRandomQuestion()); // tu null
-        assertNotSame(questionDTO2, questionFacade.findRandomQuestion());
-    }
 
     @Test
     public void testSaveNewCorrectAnswer() {
@@ -57,7 +43,7 @@ class AnswerManagerTest {
         List<Answer> practitionerAnswers = new ArrayList<>(
                 List.of( new Answer( 1L,
                         null,
-                        null,
+                        true,
                         null,
                         mockPractitioner,
                         anotherQuestion ) )
@@ -66,7 +52,7 @@ class AnswerManagerTest {
         AnswerDTO answerDTO = new AnswerDTO(
                 1,
                 "content",
-                "true",
+                true,
                 null,
                 mockPractitioner.getId(),
                 question.getId()
@@ -75,7 +61,7 @@ class AnswerManagerTest {
         Answer expectedAnswer = new Answer(
                 1L,
                 "content",
-                "true",
+                true,
                 "Correct",
                 mockPractitioner,
                 question
@@ -93,7 +79,7 @@ class AnswerManagerTest {
         AnswerDTO capturedAnswerDTO = AnswerDTO.mapToDto( captor.getValue() );
 
         assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getQuestionContent(), capturedAnswerDTO.getQuestionContent() );
-        assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getAnswer(), capturedAnswerDTO.getAnswer() );
+        assertEquals( AnswerDTO.mapToDto( expectedAnswer ).isAnswer(), capturedAnswerDTO.isAnswer() );
         assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getResult(), capturedAnswerDTO.getResult() );
         assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getPractitionerId(), capturedAnswerDTO.getPractitionerId() );
         assertEquals( AnswerDTO.mapToDto( expectedAnswer ).getQuestionId(), capturedAnswerDTO.getQuestionId() );
@@ -111,7 +97,7 @@ class AnswerManagerTest {
                 List.of(new Answer(
                         1L,
                         null,
-                        null,
+                        true,
                         null,
                         mockPractitioner,
                         mockQuestion ))
@@ -120,7 +106,7 @@ class AnswerManagerTest {
         AnswerDTO answerDTO = new AnswerDTO(
                 1,
                 "content",
-                "YES",
+                true,
                 null,
                 mockPractitioner.getId(),
                 mockQuestion.getId()
