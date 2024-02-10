@@ -18,7 +18,7 @@ public class AccountFacade {
 
     public AccountDTO createNewAccount(AccountDTO accountDTO) {
         if (accountRepository.existsById(accountDTO.getEmail())) {
-            throw new AccountServiceException("An account with this email address already exists");
+            throw new EmailInUseException("An account with this email address already exists");
         }
         String hashedPassword = passwordEncoder.encode(accountDTO.getPassword());
         Account account = new Account();
