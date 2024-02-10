@@ -28,10 +28,11 @@ class QuestionManager implements QuestionFacade{
     private Question mapToEntity(QuestionDTO questionDTO) {
         return new Question(
                 questionDTO.getContent(),
-                questionDTO.isYesNo());
+                questionDTO.isCorrectAnswer());
     }
 
     public QuestionDTO mapToDto(Question question) {
+        return new QuestionDTO(question.getId(), question.getContent(), question.isCorrectAnswer());
         return new QuestionDTO(question.getId(), question.getContent(), question.isYesNo());
     }
 

@@ -21,27 +21,13 @@ public class Question {
     @GeneratedValue
     private Long id;
     private String content;
+    private boolean correctAnswer;
     private boolean yesNo;
     @OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
     private List<Answer> answer;
 
-    public Question( String content, boolean yesNo ) {
+    public Question(String content, boolean correctAnswer) {
         this.content = content;
-        this.yesNo = yesNo;
-    }
-
-    @Override
-    public boolean equals( Object obj ) {
-        if ( this == obj ) return true;
-        if ( obj == null || getClass() != obj.getClass() ) return false;
-
-        Question question = ( Question ) obj;
-
-        return Objects.equals( content, question.content ) && yesNo == question.isYesNo();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash( content, yesNo );
+        this.correctAnswer = correctAnswer;
     }
 }

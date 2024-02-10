@@ -1,6 +1,5 @@
 package pl.pop.interview.master.answer;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -18,8 +17,6 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AnswerManagerTest {
-    private static final String YES = "Yes";
-    private static final String NO = "No";
     @Mock
     private AnswerRepository answerRepository;
     @Mock

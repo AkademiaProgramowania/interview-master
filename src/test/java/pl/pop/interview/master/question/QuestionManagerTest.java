@@ -15,9 +15,7 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith( MockitoExtension.class )
-class QuestionManagerTest {
-    private static final String YES = "Yes";
-    private static final String NO = "No";
+public class QuestionManagerTest {
     @Mock
     private QuestionRepository questionRepository;
     @InjectMocks
@@ -28,6 +26,7 @@ class QuestionManagerTest {
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setContent("Is it ok?");
         questionDTO.setYesNo(true);
+        questionDTO.setCorrectAnswer(true);
 
         questionManager.addNewQuestion( questionDTO );
 
@@ -40,6 +39,7 @@ class QuestionManagerTest {
 
         assertEquals( questionDTO.getContent(), capturedQuestion.getContent() );
         assertEquals( questionDTO.isYesNo(), capturedQuestion.isYesNo() );
+        assertEquals( questionDTO.isCorrectAnswer(), capturedQuestion.isCorrectAnswer() );
     }
 
     @Test
@@ -56,6 +56,7 @@ class QuestionManagerTest {
 
         // we need to cast DTO to Question, cause service returns List<QuestionDTO>
         List<Question> actualQuestions = actualQuestionsDTO.stream()
+                .map(questionDTO -> new Question(questionDTO.getContent(), questionDTO.isCorrectAnswer()))
                 .map(questionDTO -> new Question(questionDTO.getContent(), questionDTO.isYesNo()))
                 .toList();
 
@@ -63,8 +64,10 @@ class QuestionManagerTest {
         assertAll(
                 () -> assertEquals(expectedQuestions.get(0).getContent(), actualQuestions.get(0).getContent()),
                 () -> assertEquals(expectedQuestions.get(0).isYesNo(), actualQuestions.get(0).isYesNo()),
+                () -> assertEquals(expectedQuestions.get(0).isCorrectAnswer(), actualQuestions.get(0).isCorrectAnswer()),
                 () -> assertEquals(expectedQuestions.get(1).getContent(), actualQuestions.get(1).getContent()),
                 () -> assertEquals(expectedQuestions.get(1).isYesNo(), actualQuestions.get(1).isYesNo())
+                () -> assertEquals(expectedQuestions.get(1).isCorrectAnswer(), actualQuestions.get(1).isCorrectAnswer())
         );
     }
 }

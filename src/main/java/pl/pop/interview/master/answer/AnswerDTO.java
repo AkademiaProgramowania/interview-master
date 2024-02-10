@@ -10,13 +10,17 @@ import lombok.*;
 public class AnswerDTO {
     private int id;
     private String questionContent;
-    private String answer;
+//    private String answer;
+//    private String question;
+    private boolean answer;
     private String result;
     private Long practitionerId;
     private Long questionId;
 
     public static AnswerDTO mapToDto(Answer answer) {
         return AnswerDTO.builder()
+                .question(answer.getQuestionContent())
+                .answer(answer.isAnswer())
                 .questionContent(answer.getQuestionContent())
                 .answer(answer.getAnswer())
                 .result(answer.getResult())
