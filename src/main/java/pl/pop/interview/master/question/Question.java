@@ -4,8 +4,6 @@ package pl.pop.interview.master.question;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Objects;
-
 /**
  * Representing the question table inside DB with id, content and correct answer
  */
@@ -20,9 +18,9 @@ public class Question {
     @GeneratedValue
     private Long id;
     private String content;
-    private String correctAnswer;
+    private boolean correctAnswer;
 
-    public Question(String content, String correctAnswer) {
+    public Question(String content, boolean correctAnswer) {
         this.content = content;
         this.correctAnswer = correctAnswer;
     }

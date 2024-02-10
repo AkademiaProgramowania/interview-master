@@ -18,7 +18,7 @@ class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String questionContent;
-    private String answer;
+    private boolean answer;
     private String result;
 
 }

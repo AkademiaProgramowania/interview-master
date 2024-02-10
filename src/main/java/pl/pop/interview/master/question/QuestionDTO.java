@@ -1,7 +1,6 @@
 package pl.pop.interview.master.question;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,11 +17,11 @@ import lombok.Setter;
 public class QuestionDTO {
     private Long id; // dodane pole by móc wyświetlić userowi pytanie z id a bez odpowiedzi
     private String content;
-    private String correctAnswer;
+    private boolean correctAnswer;
 
     public QuestionDTO() {
     }
-    public QuestionDTO(String content, String correctAnswer) {
+    public QuestionDTO(String content, boolean correctAnswer) {
         this.content = content;
         this.correctAnswer = correctAnswer;
     }
