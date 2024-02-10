@@ -27,7 +27,6 @@ class QuestionManagerTest {
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setContent("Is it ok?");
         questionDTO.setCorrectAnswer(true);
-        questionDTO.setCorrectAnswer(true);
 
         questionManager.addNewQuestion( questionDTO );
 
@@ -39,7 +38,6 @@ class QuestionManagerTest {
         Question capturedQuestion = questionCaptor.getValue();
 
         assertEquals( questionDTO.getContent(), capturedQuestion.getContent() );
-        assertEquals( questionDTO.isCorrectAnswer(), capturedQuestion.isCorrectAnswer() );
         assertEquals( questionDTO.isCorrectAnswer(), capturedQuestion.isCorrectAnswer() );
     }
 

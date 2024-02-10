@@ -26,7 +26,7 @@ class PractitionerManager implements PractitionerFacade {
                 .map(PractitionerDTO::mapToDTO)
                 .toList();
     }
-
+  
     public Practitioner getPractitioner(Long practitionerId) {
 
         return practitionerRepository

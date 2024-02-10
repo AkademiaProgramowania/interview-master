@@ -11,7 +11,7 @@ import pl.pop.interview.master.question.Question;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Answer {
+class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

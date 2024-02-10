@@ -6,7 +6,10 @@ import pl.pop.interview.master.answer.Answer;
 
 import java.util.List;
 
+
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor

@@ -18,5 +18,4 @@ class AnswerController {
     @GetMapping
     public List<Answer> getAllAnswers() {
         return answerManager.getAllAnswers();
-    }
 }

@@ -27,7 +27,6 @@ class AnswerManagerTest {
     private AnswerManager answerManager;
 
 
-
     @Test
     public void testSaveNewCorrectAnswer() {
         Practitioner mockPractitioner = mock(Practitioner.class);
