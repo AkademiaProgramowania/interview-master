@@ -25,4 +25,14 @@ class PractitionerManager implements PractitionerFacade {
                 .map(PractitionerDTO::mapToDTO)
                 .toList();
     }
+
+    @Override
+    public Practitioner getPractitioner( Long practitionerId ) {
+        return practitionerRepository
+                .findById( practitionerId )
+                .orElseThrow(
+                        () -> new PractitionerServiceException(
+                                "Practitioner with ID " + practitionerId + " does not exist!" )
+                );
+    }
 }

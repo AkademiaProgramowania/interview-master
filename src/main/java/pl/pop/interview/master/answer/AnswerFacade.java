@@ -1,9 +1,9 @@
 package pl.pop.interview.master.answer;
 
-import pl.pop.interview.master.question.QuestionDTO;
+import java.util.List;
 
 public interface AnswerFacade {
-    QuestionDTO findRandomQuestion();
-    QuestionDTO generateRandomQuestion();
-    AnswerDTO save(Long questionId, boolean isTrue);
+    AnswerDTO addNewAnswer(AnswerDTO answerDTO);
+    List<Answer> getAllAnswers();
+    boolean isQuestionAnswered(Long practitionerId, Long questionId);
 }

@@ -9,15 +9,19 @@ import lombok.*;
 @AllArgsConstructor
 public class AnswerDTO {
     private int id;
-    private String question;
+    private String questionContent;
     private boolean answer;
     private String result;
+    private Long practitionerId;
+    private Long questionId;
 
     public static AnswerDTO mapToDto(Answer answer) {
         return AnswerDTO.builder()
-                .question(answer.getQuestionContent())
+                .questionContent(answer.getQuestionContent())
                 .answer(answer.isAnswer())
                 .result(answer.getResult())
+                .practitionerId( answer.getPractitioner().getId() )
+                .questionId( answer.getQuestion().getId() )
                 .build();
     }
 }

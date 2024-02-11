@@ -9,13 +9,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
 @ExtendWith( MockitoExtension.class )
-public class QuestionManagerTest {
+class QuestionManagerTest {
     @Mock
     private QuestionRepository questionRepository;
     @InjectMocks
@@ -64,5 +65,19 @@ public class QuestionManagerTest {
                 () -> assertEquals(expectedQuestions.get(1).getContent(), actualQuestions.get(1).getContent()),
                 () -> assertEquals(expectedQuestions.get(1).isCorrectAnswer(), actualQuestions.get(1).isCorrectAnswer())
         );
+    }
+
+    @Test
+    public void testFindRandomQuestion() {
+        Question question = new Question("content", true);
+        QuestionDTO questionDTO = new QuestionDTO("content", true);
+        QuestionDTO questionDTO2 = new QuestionDTO("no content", false);
+
+        when(questionRepository.findRandomQuestion()).thenReturn( Optional.of( question ) );
+
+        questionRepository.save(question);
+
+        assertEquals( questionDTO.getContent(), questionManager.findRandomQuestion().getContent() );
+        assertNotEquals(questionDTO2.getContent(), questionManager.findRandomQuestion().getContent());
     }
 }

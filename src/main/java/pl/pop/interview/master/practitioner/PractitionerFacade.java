@@ -8,6 +8,6 @@ import java.util.List;
  */
 public interface PractitionerFacade {
     Practitioner createNewPractitioner();
-
     List<PractitionerDTO> listPractitioners();
+    Practitioner getPractitioner(Long practitionerId);
 }
