@@ -2,40 +2,52 @@ package pl.pop.interview.master.answer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.pop.interview.master.practitioner.PractitionerFacade;
 import pl.pop.interview.master.question.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 public class AnswerFacade {
 
     private final AnswerRepository answerRepository;
-    private final QuestionRepository questionRepository;
     private final QuestionFacade questionFacade;
+    private final PractitionerFacade practitionerFacade;
 
-    public QuestionDTO findRandomQuestion() {
-        Question found = questionRepository.findRandomQuestion().orElseThrow(() -> new NotFoundException("Question not found"));
-        return questionFacade.mapToDto(found);
-    }
+    public AnswerDTO addNewAnswer( AnswerDTO answerDTO) {
+        // is the question already answered
+        if (isQuestionAnswered( answerDTO.getPractitionerId(), answerDTO.getQuestionId() )) {
+            throw new RuntimeException(
+                    "The Practitioner " + answerDTO.getPractitionerId() + " has already answered this question."
+            );
+        }
 
-    // opcjonalnie
-    public QuestionDTO generateRandomQuestion() {
-        Random random = new Random();
-        List<Question> allQuestions = questionRepository.findAll();
-        int index = random.nextInt(allQuestions.size());
-        Question question = allQuestions.get(index);
-        return questionFacade.mapToDto(question);
-    }
+        Question question = questionFacade.getQuestion( answerDTO.getQuestionId() );
 
-    public AnswerDTO save(Long questionId, boolean isTrue) {
-        Question question = questionRepository.findById(questionId).orElseThrow(() -> new NotFoundException("Question not found"));
         // check if the answer is correct, comparing to question
-        boolean isCorrect = Objects.equals(isTrue, question.isCorrectAnswer());
+        boolean isCorrect = Objects.equals(
+                answerDTO.isAnswer(),
+                question.isCorrectAnswer());
+
         // new Answer with question content, submitted answer and result
-        Answer newAnswer = new Answer(questionId, question.getContent(), isTrue, isCorrect ? "Correct answer" : "Incorrect answer or answer format YES/NO");
+        Answer newAnswer = new Answer(
+                question.getContent(),
+                answerDTO.isAnswer(),
+                isCorrect ? "Correct" : "Incorrect");
+
+        newAnswer.setPractitioner(practitionerFacade.getPractitioner( answerDTO.getPractitionerId() ));
+        newAnswer.setQuestion( question );
+
         return AnswerDTO.mapToDto(answerRepository.save(newAnswer));
+    }
+
+    public boolean isQuestionAnswered(Long practitionerId, Long questionId) {
+        return answerRepository.isQuestionAnswered(practitionerId, questionId);
+    }
+
+    public List<Answer> getAllAnswers() {
+        return answerRepository.findAll();
     }
 }

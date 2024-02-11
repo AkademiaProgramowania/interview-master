@@ -24,4 +24,14 @@ public class PractitionerFacade {
                 .map(PractitionerDTO::mapToDTO)
                 .toList();
     }
+
+    public Practitioner getPractitioner(Long practitionerId) {
+
+        return practitionerRepository
+                .findById( practitionerId )
+                .orElseThrow( () ->
+                        new PractitionerServiceException(
+                                "Practitioner with ID " + practitionerId + " does not exist!"  )
+                );
+    }
 }

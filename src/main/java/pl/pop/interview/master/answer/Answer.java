@@ -1,10 +1,9 @@
 package pl.pop.interview.master.answer;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import pl.pop.interview.master.practitioner.Practitioner;
+import pl.pop.interview.master.question.Question;
 
 @Entity
 @Getter
@@ -12,7 +11,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-class Answer {
+public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +19,16 @@ class Answer {
     private String questionContent;
     private boolean answer;
     private String result;
+    @ManyToOne
+    @JoinColumn(name = "practitioner_id")
+    private Practitioner practitioner;
+    @ManyToOne
+    @JoinColumn(name = "question_id")
+    private Question question;
 
+    public Answer( String questionContent, boolean answer, String result ) {
+        this.questionContent = questionContent;
+        this.answer = answer;
+        this.result = result;
+    }
 }

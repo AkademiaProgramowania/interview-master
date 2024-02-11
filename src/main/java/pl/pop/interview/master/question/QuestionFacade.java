@@ -32,4 +32,31 @@ public class QuestionFacade {
     public QuestionDTO mapToDto(Question question) {
         return new QuestionDTO(question.getId(), question.getContent(), question.isCorrectAnswer());
     }
+
+    public QuestionDTO findRandomQuestion() {
+        Question found = questionRepository
+                .findRandomQuestion()
+                .orElseThrow(() -> new NotFoundException("Question not found"));
+
+        return mapToDto(found);
+    }
+
+    // optional
+    public QuestionDTO generateRandomQuestion() {
+
+        return mapToDto(
+                questionRepository
+                        .findRandomQuestion()
+                        .orElseThrow(() -> new NotFoundException( "Question not found." ))
+        );
+    }
+
+    public Question getQuestion(Long questionId) {
+
+        return questionRepository
+                .findById( questionId )
+                .orElseThrow(
+                        () -> new NotFoundException( "Question with ID " + questionId + " does not exist!" )
+                );
+    }
 }
