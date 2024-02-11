@@ -1,13 +1,27 @@
 package pl.pop.interview.master.practitioner;
 
-import java.util.List;
-/**
- * The {@code PractitionerFacade} interface defines high-level operations for managing practitioners.
- * Practitioners are associated with user accounts, and this facade provides methods to create
- * new practitioners and retrieve information about existing practitioners.
- */
-public interface PractitionerFacade {
-    Practitioner createNewPractitioner();
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-    List<PractitionerDTO> listPractitioners();
+import java.util.List;
+
+@RequiredArgsConstructor
+@Service
+public class PractitionerFacade {
+
+    private final PractitionerRepository practitionerRepository;
+
+    public Practitioner createNewPractitioner() {
+        // create a new practitioner called only in creating new account
+        Practitioner practitioner = new Practitioner();
+        return practitionerRepository.save(practitioner);
+    }
+
+
+    public List<PractitionerDTO> listPractitioners() {
+        return practitionerRepository.findAll()
+                .stream()
+                .map(PractitionerDTO::mapToDTO)
+                .toList();
+    }
 }

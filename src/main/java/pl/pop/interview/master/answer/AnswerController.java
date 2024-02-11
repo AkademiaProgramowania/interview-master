@@ -10,18 +10,18 @@ import pl.pop.interview.master.question.QuestionDTO;
 @RequiredArgsConstructor
 @RequestMapping("api/v1/answers")
 class AnswerController {
-    private final AnswerManager answerManager;
+    private final AnswerFacade answerFacade;
 
     // random question for user
     @GetMapping("/question")
     ResponseEntity<QuestionDTO> getRandomQuestion() {
-        QuestionDTO questionDTO = answerManager.findRandomQuestion();
+        QuestionDTO questionDTO = answerFacade.findRandomQuestion();
         return new ResponseEntity<>(questionDTO, HttpStatus.OK);
     }
 
     @PostMapping("/{questionId}")
     ResponseEntity<String> save(@PathVariable Long questionId, @RequestBody AnswerDTO answerDTO) {
-        AnswerDTO newAnswer = answerManager.save(questionId, answerDTO.isAnswer());
+        AnswerDTO newAnswer = answerFacade.save(questionId, answerDTO.isAnswer());
         return new ResponseEntity<>(newAnswer.getResult(), HttpStatus.CREATED);
     }
 }

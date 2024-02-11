@@ -10,15 +10,15 @@ import java.util.List;
 @RequestMapping(path = "api/v1/accounts")
 class AccountController {
 
-    private final AccountFacade accountService;
+    private final AccountFacade accountFacade;
 
     @PostMapping
     void addNewAccount(@RequestBody AccountDTO accountDTO) {
-        accountService.createNewAccount(accountDTO);
+        accountFacade.createNewAccount(accountDTO);
     }
 
     @GetMapping
     List<AccountDTO> listAccounts() {
-        return accountService.getAllAccounts();
+        return accountFacade.getAllAccounts();
     }
 }

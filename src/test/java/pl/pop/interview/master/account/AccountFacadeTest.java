@@ -19,16 +19,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AccountManagerTest {
+class AccountFacadeTest {
 
     @Mock
     private AccountRepository accountRepository;
     @Mock
     private PasswordEncoder passwordEncoder;
     @Mock
-    private PractitionerFacade practitionerManager;
+    private PractitionerFacade practitionerFacade;
     @InjectMocks
-    private AccountManager accountManager;
+    private AccountFacade accountFacade;
 
     @Test
     void testCreateNewAccount() {
@@ -41,10 +41,10 @@ class AccountManagerTest {
 
         when(accountRepository.existsById(inputDTO.getEmail())).thenReturn(false);
         when(passwordEncoder.encode(inputDTO.getPassword())).thenReturn("hashedPassword");
-        when(practitionerManager.createNewPractitioner()).thenReturn(practitioner);
+        when(practitionerFacade.createNewPractitioner()).thenReturn(practitioner);
         when(accountRepository.save(any(Account.class))).thenReturn(result);
 
-        AccountDTO resultDTO = accountManager.createNewAccount(inputDTO);
+        AccountDTO resultDTO = accountFacade.createNewAccount(inputDTO);
         assertNull(resultDTO.getPassword()); //mapper sets hashed password to null to make it invisible
 
         // capture account object to test accountRepository.save method result
@@ -71,7 +71,7 @@ class AccountManagerTest {
 
         when(accountRepository.findAll()).thenReturn(accounts);
 
-        List<AccountDTO> resultList = accountManager.getAllAccounts();
+        List<AccountDTO> resultList = accountFacade.getAllAccounts();
         assertNotNull(resultList);
         assertEquals(2, resultList.size());
         assertEquals("email@gmail.com", resultList.get(0).getEmail());

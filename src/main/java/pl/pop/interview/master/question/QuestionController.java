@@ -9,15 +9,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "api/v1/questions")
 class QuestionController {
-    private final QuestionManager questionManager;
+    private final QuestionFacade questionFacade;
 
     @PostMapping
     public void addNewQuestion(@RequestBody QuestionDTO questionDTO) {
-        questionManager.addNewQuestion(questionDTO);
+        questionFacade.addNewQuestion(questionDTO);
     }
 
     @GetMapping
     public List<QuestionDTO> getAllQuestions() {
-        return questionManager.getAllQuestions();
+        return questionFacade.getAllQuestions();
     }
 }

@@ -16,15 +16,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AnswerManagerTest {
+class AnswerFacadeTest {
     @Mock
     private AnswerRepository answerRepository;
     @Mock
     private QuestionRepository questionRepository;
     @Mock
-    private QuestionFacade questionService;
+    private QuestionFacade questionFacade;
     @InjectMocks
-    private AnswerManager answerManager;
+    private AnswerFacade answerFacade;
 
     @Test
     public void testFindRandomQuestion() {
@@ -33,9 +33,9 @@ class AnswerManagerTest {
         QuestionDTO questionDTO = new QuestionDTO();
         questionRepository.save(question);
         when(questionRepository.findRandomQuestion()).thenReturn(Optional.of(question));
-        when(questionService.mapToDto(question)).thenReturn(questionDTO);
-        assertSame(questionDTO, answerManager.findRandomQuestion());
-        assertNotSame(questionDTO2, answerManager.findRandomQuestion());
+        when(questionFacade.mapToDto(question)).thenReturn(questionDTO);
+        assertSame(questionDTO, answerFacade.findRandomQuestion());
+        assertNotSame(questionDTO2, answerFacade.findRandomQuestion());
     }
 
     @Test
@@ -50,7 +50,7 @@ class AnswerManagerTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerCorrect);
 
-        AnswerDTO resultCorrect = answerManager.save(1L, true);
+        AnswerDTO resultCorrect = answerFacade.save(1L, true);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
@@ -75,7 +75,7 @@ class AnswerManagerTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerIncorrect);
 
-        AnswerDTO resultIncorrect = answerManager.save(1L, false);
+        AnswerDTO resultIncorrect = answerFacade.save(1L, false);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
