@@ -50,7 +50,7 @@ class AnswerFacadeTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerCorrect);
 
-        AnswerDTO resultCorrect = answerManager.save(1L, true);
+        AnswerDTO resultCorrect = answerFacade.save(1L, true);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
@@ -75,7 +75,7 @@ class AnswerFacadeTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerIncorrect);
 
-        AnswerDTO resultIncorrect = answerManager.save(1L, false);
+        AnswerDTO resultIncorrect = answerFacade.save(1L, false);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
