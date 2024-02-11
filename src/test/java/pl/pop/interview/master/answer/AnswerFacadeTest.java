@@ -17,8 +17,6 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AnswerFacadeTest {
-    private static final String YES = "Yes";
-    private static final String NO = "No";
     @Mock
     private AnswerRepository answerRepository;
     @Mock
@@ -52,7 +50,7 @@ class AnswerFacadeTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerCorrect);
 
-        AnswerDTO resultCorrect = answerManager.save(1L, true);
+        AnswerDTO resultCorrect = answerFacade.save(1L, true);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
@@ -77,7 +75,7 @@ class AnswerFacadeTest {
         when(questionRepository.findById(1L)).thenReturn(Optional.of(question1));
         when(answerRepository.save(any())).thenReturn(answerIncorrect);
 
-        AnswerDTO resultIncorrect = answerManager.save(1L, false);
+        AnswerDTO resultIncorrect = answerFacade.save(1L, false);
 
         ArgumentCaptor<Answer> answerCaptor = ArgumentCaptor.forClass(Answer.class);
         verify(answerRepository).save(answerCaptor.capture());
