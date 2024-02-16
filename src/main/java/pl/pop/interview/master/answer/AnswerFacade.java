@@ -6,7 +6,6 @@ import pl.pop.interview.master.practitioner.PractitionerFacade;
 import pl.pop.interview.master.question.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class AnswerFacade {
 
     public AnswerDTO addNewAnswer( AnswerDTO answerDTO) {
         // is the question already answered
-        if (isQuestionAnswered( answerDTO.getPractitionerId(), answerDTO.getQuestionId() )) {
+        if (answerRepository.isQuestionAnswered( answerDTO.getPractitionerId(), answerDTO.getQuestionId() ) ) {
             throw new RuntimeException(
                     "The Practitioner " + answerDTO.getPractitionerId() + " has already answered this question."
             );
@@ -27,24 +26,18 @@ public class AnswerFacade {
         Question question = questionFacade.getQuestion( answerDTO.getQuestionId() );
 
         // check if the answer is correct, comparing to question
-        boolean isCorrect = Objects.equals(
-                answerDTO.isAnswer(),
-                question.isCorrectAnswer());
+        boolean isAnswerCorrect = answerDTO.getGivenAnswer() == question.getExpectedAnswer();
 
         // new Answer with question content, submitted answer and result
         Answer newAnswer = new Answer(
                 question.getContent(),
-                answerDTO.isAnswer(),
-                isCorrect ? "Correct" : "Incorrect");
+                answerDTO.getGivenAnswer(),
+                isAnswerCorrect ? "Correct" : "Incorrect");
 
         newAnswer.setPractitioner(practitionerFacade.getPractitioner( answerDTO.getPractitionerId() ));
         newAnswer.setQuestion( question );
 
         return AnswerDTO.mapToDto(answerRepository.save(newAnswer));
-    }
-
-    public boolean isQuestionAnswered(Long practitionerId, Long questionId) {
-        return answerRepository.isQuestionAnswered(practitionerId, questionId);
     }
 
     public List<Answer> getAllAnswers() {

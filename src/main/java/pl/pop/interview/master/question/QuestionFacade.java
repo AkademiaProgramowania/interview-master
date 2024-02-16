@@ -26,11 +26,11 @@ public class QuestionFacade {
     private Question mapToEntity(QuestionDTO questionDTO) {
         return new Question(
                 questionDTO.getContent(),
-                questionDTO.isCorrectAnswer());
+                questionDTO.getExpectedAnswer());
     }
 
     public QuestionDTO mapToDto(Question question) {
-        return new QuestionDTO(question.getId(), question.getContent(), question.isCorrectAnswer());
+        return new QuestionDTO(question.getId(), question.getContent(), question.getExpectedAnswer());
     }
 
     public QuestionDTO findRandomQuestion() {
@@ -39,16 +39,6 @@ public class QuestionFacade {
                 .orElseThrow(() -> new NotFoundException("Question not found"));
 
         return mapToDto(found);
-    }
-
-    // optional
-    public QuestionDTO generateRandomQuestion() {
-
-        return mapToDto(
-                questionRepository
-                        .findRandomQuestion()
-                        .orElseThrow(() -> new NotFoundException( "Question not found." ))
-        );
     }
 
     public Question getQuestion(Long questionId) {
