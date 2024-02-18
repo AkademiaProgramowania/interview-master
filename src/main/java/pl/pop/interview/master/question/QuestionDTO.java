@@ -1,8 +1,6 @@
 package pl.pop.interview.master.question;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * DTO objects are used as data transport structure. 
@@ -12,17 +10,35 @@ import lombok.Setter;
  * Getters and no-args constructor are required by the Jackson library for JSON serialization/deserialization.
  */
 @AllArgsConstructor
-@Getter
-@Setter
 public class QuestionDTO {
-    private Long id; // dodane pole by móc wyświetlić userowi pytanie z id a bez odpowiedzi
+    private Long id;
     private String content;
-    private boolean correctAnswer;
+    private boolean expectedAnswer;
 
     public QuestionDTO() {
     }
-    public QuestionDTO(String content, boolean correctAnswer) {
+    public QuestionDTO(String content, boolean expectedAnswer ) {
         this.content = content;
-        this.correctAnswer = correctAnswer;
+        this.expectedAnswer = expectedAnswer;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public boolean getExpectedAnswer() {
+        return expectedAnswer;
+    }
+
+    public void setContent( String content ) {
+        this.content = content;
+    }
+
+    public void setExpectedAnswer( boolean expectedAnswer ) {
+        this.expectedAnswer = expectedAnswer;
     }
 }
