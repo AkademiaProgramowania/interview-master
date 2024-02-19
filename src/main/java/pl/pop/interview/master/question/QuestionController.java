@@ -26,6 +26,15 @@ class QuestionController {
         return questionFacade.getAllQuestions();
     }
 
+    @GetMapping("/{id}/answers")
+    public List<QuestionDTO> getQuestionsForPractitioner(@PathVariable("id") Long id, @RequestParam(required = false) Boolean answered) {
+        if (answered != null && answered) {
+            return questionFacade.getQuestionsAnsweredByPractitioner(id);
+        } else {
+            return null; // result of questionFacade.getQuestionsUnansweredByPractitioner (to be done in task 23)
+        }
+    }
+
     @GetMapping("/question")
     ResponseEntity<QuestionDTO> getRandomQuestion() {
         QuestionDTO questionDTO = questionFacade.findRandomQuestion();

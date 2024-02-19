@@ -23,6 +23,12 @@ public class QuestionFacade {
                 .toList();
     }
 
+    public List<QuestionDTO> getQuestionsAnsweredByPractitioner(Long practitionerId) {
+        return questionRepository.findQuestionsAnsweredByPractitioner(practitionerId).stream()
+                .map(question -> mapToDto(question))
+                .toList();
+    }
+
     private Question mapToEntity(QuestionDTO questionDTO) {
         return new Question(
                 questionDTO.getContent(),
