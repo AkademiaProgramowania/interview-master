@@ -1,6 +1,8 @@
 package pl.pop.interview.master.question;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +25,12 @@ public class QuestionFacade {
                 .toList();
     }
 
-    public List<QuestionDTO> getQuestionsAnsweredByPractitioner(Long practitionerId) {
-        return questionRepository.findQuestionsAnsweredByPractitioner(practitionerId).stream()
-                .map(question -> mapToDto(question))
-                .toList();
+    public Page<QuestionDTO> getQuestionsForPractitioner(Long practitionerId, Boolean answered, Pageable pageable) {
+        if (answered != null && answered) {
+            return questionRepository.getQuestionsAnsweredByPractitioner(practitionerId,pageable).map(question -> mapToDto(question));
+        } else {
+            return questionRepository.getQuestionsUnansweredByPractitioner(practitionerId, pageable).map(question -> mapToDto(question));
+        }
     }
 
     private Question mapToEntity(QuestionDTO questionDTO) {
@@ -48,7 +52,6 @@ public class QuestionFacade {
     }
 
     public Question getQuestion(Long questionId) {
-
         return questionRepository
                 .findById( questionId )
                 .orElseThrow(

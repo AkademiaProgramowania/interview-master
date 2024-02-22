@@ -1,6 +1,9 @@
 package pl.pop.interview.master.question;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +30,14 @@ class QuestionController {
     }
 
     @GetMapping("/{id}/answers")
-    public List<QuestionDTO> getQuestionsForPractitioner(@PathVariable("id") Long id, @RequestParam(required = false) Boolean answered) {
-        if (answered != null && answered) {
-            return questionFacade.getQuestionsAnsweredByPractitioner(id);
-        } else {
-            return null; // result of questionFacade.getQuestionsUnansweredByPractitioner (to be done in task 23)
-        }
+    public ResponseEntity<Page<QuestionDTO>> getQuestionsForPractitioner(@PathVariable("id") Long id,
+                                                         @RequestParam(required = false) Boolean answered,
+                                                         @RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page,size);
+        Page<QuestionDTO> resultPage = questionFacade.getQuestionsForPractitioner(id,answered, pageable);
+        return new ResponseEntity<>(resultPage, HttpStatus.OK);
     }
 
     @GetMapping("/question")
