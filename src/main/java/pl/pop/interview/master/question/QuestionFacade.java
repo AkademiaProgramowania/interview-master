@@ -2,6 +2,7 @@ package pl.pop.interview.master.question;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,6 @@ public class QuestionFacade {
         questionRepository.save(question);
     }
 
-
     public List<QuestionDTO> getAllQuestions() {
         return questionRepository.findAll().stream()
                 .map(question -> mapToDto(question))
@@ -26,11 +26,15 @@ public class QuestionFacade {
     }
 
     public Page<QuestionDTO> getQuestionsForPractitioner(Long practitionerId, Boolean answered, Pageable pageable) {
-        if (answered != null && answered) {
-            return questionRepository.getQuestionsAnsweredByPractitioner(practitionerId,pageable).map(question -> mapToDto(question));
-        } else {
-            return questionRepository.getQuestionsUnansweredByPractitioner(practitionerId, pageable).map(question -> mapToDto(question));
+        var dtoList = getPagedQuestions(practitionerId, answered, pageable).getContent().stream().map(question -> mapToDto(question)).toList();
+        return new PageImpl<>(dtoList, pageable, dtoList.size());
+    }
+
+    private Page<Question> getPagedQuestions(Long practitionerId, Boolean answered, Pageable pageable) {
+        if (answered) {
+            return questionRepository.getQuestionsAnsweredByPractitioner(practitionerId, pageable);
         }
+        return questionRepository.getQuestionsUnansweredByPractitioner(practitionerId, pageable);
     }
 
     private Question mapToEntity(QuestionDTO questionDTO) {
@@ -53,9 +57,9 @@ public class QuestionFacade {
 
     public Question getQuestion(Long questionId) {
         return questionRepository
-                .findById( questionId )
+                .findById(questionId)
                 .orElseThrow(
-                        () -> new NotFoundException( "Question with ID " + questionId + " does not exist!" )
+                        () -> new NotFoundException("Question with ID " + questionId + " does not exist!")
                 );
     }
 }

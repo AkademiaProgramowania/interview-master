@@ -2,7 +2,6 @@ package pl.pop.interview.master.question;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +30,9 @@ class QuestionController {
 
     @GetMapping("/{id}/answers")
     public ResponseEntity<Page<QuestionDTO>> getQuestionsForPractitioner(@PathVariable("id") Long id,
-                                                         @RequestParam(required = false) Boolean answered,
-                                                         @RequestParam(defaultValue = "0") int page,
-                                                         @RequestParam(defaultValue = "10") int size) {
-
-        Pageable pageable = PageRequest.of(page,size);
-        Page<QuestionDTO> resultPage = questionFacade.getQuestionsForPractitioner(id,answered, pageable);
-        return new ResponseEntity<>(resultPage, HttpStatus.OK);
+                                                         @RequestParam(required = false, defaultValue = "false")
+                                                         Boolean answered, Pageable pageable) {
+        return ResponseEntity.ok(questionFacade.getQuestionsForPractitioner(id,answered, pageable));
     }
 
     @GetMapping("/question")
