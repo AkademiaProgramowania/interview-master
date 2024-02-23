@@ -56,10 +56,6 @@ public class QuestionFacade {
     }
 
     public Question getQuestion(Long questionId) {
-        return questionRepository
-                .findById(questionId)
-                .orElseThrow(
-                        () -> new NotFoundException("Question with ID " + questionId + " does not exist!")
-                );
+        return questionRepository.findById(questionId).orElseThrow(() -> new NotFoundException("Question with provided ID not found"));
     }
 }
