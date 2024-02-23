@@ -1,6 +1,8 @@
 package pl.pop.interview.master.question;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,13 @@ class QuestionController {
     @GetMapping
     public List<QuestionDTO> getAllQuestions() {
         return questionFacade.getAllQuestions();
+    }
+
+    @GetMapping("/{id}/answers")
+    public ResponseEntity<Page<QuestionDTO>> getQuestionsForPractitioner(@PathVariable("id") Long id,
+                                                         @RequestParam(required = false, defaultValue = "false")
+                                                         Boolean answered, Pageable pageable) {
+        return ResponseEntity.ok(questionFacade.getQuestionsForPractitioner(id,answered, pageable));
     }
 
     @GetMapping("/question")
